@@ -646,7 +646,7 @@ const App = () => {
         <div className="absolute top-0 right-0 w-64 h-64 bg-rose-100 rounded-full blur-3xl opacity-30 -translate-y-1/2 translate-x-1/4"></div>
         <div className="container mx-auto px-6 relative">
           <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-10 md:gap-16">
-            <div className="w-full md:w-1/2">
+            {/* <div className="w-full md:w-1/2"> */}
               {/* <div className="aspect-[4/5] rounded-[2rem] overflow-hidden shadow-2xl relative"> */}
                 {/* <img 
                   src="https://images.unsplash.com/photo-1517260739337-6799d2eb9ce0?auto=format&fit=crop&q=80&w=800" 
@@ -657,7 +657,7 @@ const App = () => {
                   <p className="font-serif text-lg italic">"Creating joy with yarn"</p>
                 </div>
               </div> */}
-            </div>
+            {/* </div> */}
             <div className="w-full md:w-1/2 space-y-6">
               <span className="text-rose-500 font-bold tracking-widest text-xs uppercase">Meet the Artist</span>
               <h2 className="text-3xl sm:text-4xl font-serif text-stone-900">Crafted with Soul, <br/>Stitched with Love.</h2>

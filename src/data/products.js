@@ -21,6 +21,7 @@ import handbag10_2 from '../assets/product/handbag/bag10.2.png'
 import handbag10_model1 from '../assets/product/handbag/bag10_model1.png'
 import handbag10_model2 from '../assets/product/handbag/bag10_model2.png'
 import handbag11 from '../assets/product/handbag/bag11.png'
+import handbag11_model1 from '../assets/product/handbag/bag11_model1.png'
 
 import sling1 from '../assets/product/sling/sling1.png'
 import sling1_model from '../assets/product/sling/sling1_model1.png'
@@ -146,8 +147,8 @@ export const products = [
   {
     id: 8,
     name: "Elegant Evening Bag",
-    price: "₹1,699",
-    originalPrice: "₹2,199",
+    price: "₹1,599",
+    originalPrice: "₹1,999",
     category: "handbag",
     image: handbag8,
     modelImage: handbag8_model,
@@ -156,8 +157,8 @@ export const products = [
   {
     id: 9,
     name: "Classic Charm Bag",
-    price: "₹1,499",
-    originalPrice: "₹1,899",
+    price: "₹1,599",
+    originalPrice: "₹1,999",
     category: "handbag",
     image: handbag9,
     modelImage: handbag9_model,
@@ -166,8 +167,8 @@ export const products = [
   {
     id: 10,
     name: "Elegant Collection Bag",
-    price: "₹1,699",
-    originalPrice: "₹2,199",
+    price: "₹1,599",
+    originalPrice: "₹1,999",
     category: "handbag",
     images: [handbag10_1, handbag10_2, handbag10_model1, handbag10_model2],
     tag: "New Arrival"
@@ -179,6 +180,7 @@ export const products = [
     originalPrice: "₹1,999",
     category: "handbag",
     image: handbag11,
+    modelImage: handbag11_model1,
     tag: "Popular"
   },
 
