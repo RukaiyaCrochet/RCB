@@ -102,17 +102,22 @@ const App = () => {
   const [scrolled, setScrolled] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [swipeOffset, setSwipeOffset] = useState(0);
+  const [isSwiping, setIsSwiping] = useState(false);
   const [productImageIndex, setProductImageIndex] = useState({});
+  const [activePolicy, setActivePolicy] = useState(null); 
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  const [productSwipeOffset, setProductSwipeOffset] = useState({});
+  const [productSwiping, setProductSwiping] = useState({});
   const [productPendingIndex, setProductPendingIndex] = useState({});
   const [productImageLoading, setProductImageLoading] = useState({});
   const [productImageOpacity, setProductImageOpacity] = useState({});
-  const [activePolicy, setActivePolicy] = useState(null); 
-  const [showScrollTop, setShowScrollTop] = useState(false);
 
   // --- REFS FOR TOUCH/SWIPE ---
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
   const productTouchStartX = useRef({});
+  const productTouchEndX = useRef({});
 
   // --- LOGIC & EFFECTS ---
 
@@ -152,57 +157,81 @@ const App = () => {
 
   const handleTouchStart = (e) => {
     touchStartX.current = e.targetTouches[0].clientX;
+    setIsSwiping(true);
+    setSwipeOffset(0);
   };
 
   const handleTouchMove = (e) => {
+    if (!isSwiping) return;
     touchEndX.current = e.targetTouches[0].clientX;
+    const deltaX = touchEndX.current - touchStartX.current;
+    const containerWidth = e.currentTarget.offsetWidth;
+    const offsetPercent = (deltaX / containerWidth) * 100;
+    setSwipeOffset(offsetPercent);
+    e.preventDefault();
   };
 
   const handleTouchEnd = () => {
-    const threshold = 50;
-    if (touchStartX.current - touchEndX.current > threshold) {
-      handleNextSlide(); 
+    if (!isSwiping) return;
+    setIsSwiping(false);
+    const threshold = 20; // 20% of container width
+    if (swipeOffset > threshold) {
+      handlePrevSlide();
+    } else if (swipeOffset < -threshold) {
+      handleNextSlide();
     }
-    if (touchStartX.current - touchEndX.current < -threshold) {
-      handlePrevSlide(); 
-    }
-  };
-
-  const requestProductImageChange = (productId, nextIndex) => {
-    const currentIndex = productImageIndex[productId] || 0;
-    if (nextIndex === currentIndex) return;
-    setProductImageOpacity((prev) => ({ ...prev, [productId]: 0 }));
-    setProductImageLoading((prev) => ({ ...prev, [productId]: true }));
-    setProductPendingIndex((prev) => ({ ...prev, [productId]: nextIndex }));
+    setSwipeOffset(0);
   };
 
   const handleProductTouchStart = (e, productId) => {
     productTouchStartX.current[productId] = e.targetTouches[0].clientX;
+    setProductSwiping({...productSwiping, [productId]: true});
+    setProductSwipeOffset({...productSwipeOffset, [productId]: 0});
+  };
+
+  const handleProductTouchMove = (e, productId) => {
+    if (!productSwiping[productId]) return;
+    productTouchEndX.current[productId] = e.targetTouches[0].clientX;
+    const deltaX = productTouchEndX.current[productId] - productTouchStartX.current[productId];
+    const containerWidth = e.currentTarget.offsetWidth;
+    const offsetPercent = (deltaX / containerWidth) * 100;
+    setProductSwipeOffset({...productSwipeOffset, [productId]: offsetPercent});
+    e.preventDefault();
   };
 
   const handleProductTouchEnd = (e, productId, imagesLength) => {
-    const startX = productTouchStartX.current[productId];
-    if (startX === undefined) return;
-    const endX = e.changedTouches[0].clientX;
-    const delta = startX - endX;
-    const threshold = 50;
+    if (!productSwiping[productId]) return;
+    setProductSwiping({...productSwiping, [productId]: false});
+    const threshold = 20;
+    const currentOffset = productSwipeOffset[productId] || 0;
     const imgIndex = productImageIndex[productId] || 0;
-
-    if (delta > threshold) {
-      requestProductImageChange(productId, (imgIndex + 1) % imagesLength);
-    } else if (delta < -threshold) {
-      requestProductImageChange(productId, (imgIndex - 1 + imagesLength) % imagesLength);
+    
+    if (currentOffset > threshold) {
+      // Swiped right - show previous image
+      const newIndex = (imgIndex - 1 + imagesLength) % imagesLength;
+      setProductImageOpacity({...productImageOpacity, [productId]: 0});
+      setProductPendingIndex({...productPendingIndex, [productId]: newIndex});
+      setProductImageLoading({...productImageLoading, [productId]: true});
+    } else if (currentOffset < -threshold) {
+      // Swiped left - show next image
+      const newIndex = (imgIndex + 1) % imagesLength;
+      setProductImageOpacity({...productImageOpacity, [productId]: 0});
+      setProductPendingIndex({...productPendingIndex, [productId]: newIndex});
+      setProductImageLoading({...productImageLoading, [productId]: true});
     }
+    setProductSwipeOffset({...productSwipeOffset, [productId]: 0});
   };
 
   const handleProductImageLoad = (productId) => {
+    setProductImageLoading({...productImageLoading, [productId]: false});
     const pendingIndex = productPendingIndex[productId];
     if (pendingIndex !== undefined) {
-      setProductImageIndex((prev) => ({ ...prev, [productId]: pendingIndex }));
-      setProductPendingIndex((prev) => ({ ...prev, [productId]: undefined }));
+      // Fade in the new image
+      setProductImageOpacity({...productImageOpacity, [productId]: 1});
+      // Confirm the index change
+      setProductImageIndex({...productImageIndex, [productId]: pendingIndex});
+      setProductPendingIndex({...productPendingIndex, [productId]: undefined});
     }
-    setProductImageLoading((prev) => ({ ...prev, [productId]: false }));
-    setProductImageOpacity((prev) => ({ ...prev, [productId]: 1 }));
   };
 
   const handleNavClick = () => setIsMenuOpen(false);
@@ -369,39 +398,45 @@ const App = () => {
             {/* Carousel Module */}
             <div className="lg:w-1/2 relative w-full max-w-md mx-auto lg:max-w-none">
               <div 
-                className="relative aspect-[3/4] sm:aspect-[4/5] rounded-3xl lg:rounded-[3rem] shadow-2xl overflow-hidden bg-white touch-pan-y"
+                className="relative aspect-[3/4] sm:aspect-[4/5] rounded-3xl lg:rounded-[3rem] shadow-2xl overflow-hidden bg-white touch-pan-x"
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}
                 onTouchEnd={handleTouchEnd}
               >
-                {heroSlides.map((slide, index) => (
-                  <div 
-                    key={slide.id}
-                    className={`absolute inset-0 transition-all duration-700 ease-in-out ${
-                      index === currentSlide ? 'opacity-100 z-10 scale-100' : 'opacity-0 z-0 scale-95'
-                    }`}
-                  >
-                    <img 
-                      src={slide.image} 
-                      alt={`Hero slide ${slide.id}`} 
-                      className="w-full h-full object-cover object-center"
-                      loading="eager"
-                      decoding="async"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 60vw, 40vw"
-                    />
-                  </div>
-                ))}
+                <div 
+                  className={`flex h-full transition-transform duration-300 ease-out ${isSwiping ? 'duration-0' : ''}`}
+                  style={{ 
+                    transform: `translate3d(calc(-${currentSlide * 100}% + ${swipeOffset}%), 0, 0)`,
+                    willChange: isSwiping ? 'transform' : 'auto'
+                  }}
+                >
+                  {heroSlides.map((slide, index) => (
+                    <div 
+                      key={slide.id}
+                      className="flex-shrink-0 w-full h-full relative"
+                    >
+                      <img 
+                        src={slide.image} 
+                        alt={`Hero slide ${slide.id}`} 
+                        className="w-full h-full object-cover object-center"
+                        loading="eager"
+                        decoding="async"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 60vw, 40vw"
+                      />
+                    </div>
+                  ))}
+                </div>
 
                 {/* Arrows */}
                 <button 
-                  onClick={handlePrevSlide}
+                  onClick={() => { setIsSwiping(false); setSwipeOffset(0); handlePrevSlide(); }}
                   className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 w-8 h-8 sm:w-10 sm:h-10 bg-white/70 hover:bg-white rounded-full flex items-center justify-center backdrop-blur-sm transition-all shadow-sm text-stone-800 hover:scale-110"
                   aria-label="Previous Slide"
                 >
                   <ChevronLeft size={18} className="sm:w-5 sm:h-5" />
                 </button>
                 <button 
-                  onClick={handleNextSlide}
+                  onClick={() => { setIsSwiping(false); setSwipeOffset(0); handleNextSlide(); }}
                   className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-20 w-8 h-8 sm:w-10 sm:h-10 bg-white/70 hover:bg-white rounded-full flex items-center justify-center backdrop-blur-sm transition-all shadow-sm text-stone-800 hover:scale-110"
                   aria-label="Next Slide"
                 >
@@ -413,7 +448,7 @@ const App = () => {
                   {heroSlides.map((_, idx) => (
                     <button
                       key={idx}
-                      onClick={() => setCurrentSlide(idx)}
+                      onClick={() => { setIsSwiping(false); setSwipeOffset(0); setCurrentSlide(idx); }}
                       className={`h-1 sm:h-1.5 rounded-full transition-all duration-300 shadow-sm ${idx === currentSlide ? 'w-6 sm:w-8 bg-white' : 'w-1.5 sm:w-2 bg-white/50 hover:bg-white/80'}`}
                       aria-label={`Go to slide ${idx + 1}`}
                     />
@@ -493,8 +528,7 @@ const App = () => {
               filteredProducts.map((product) => {
                 const images = product.images || (product.modelImage ? [product.image, product.modelImage] : [product.image]);
                 const imgIndex = productImageIndex[product.id] || 0;
-                const displayIndex = productPendingIndex[product.id] !== undefined ? productPendingIndex[product.id] : imgIndex;
-                const currentImg = images[displayIndex];
+                const currentImg = images[imgIndex];
                 
                 return (
                 <div key={product.id} className="relative animate-fade-in flex flex-col h-full">
@@ -503,23 +537,28 @@ const App = () => {
                   <div 
                     className="aspect-[3/4] sm:aspect-[4/5] bg-stone-100 rounded-2xl sm:rounded-3xl overflow-hidden mb-4 sm:mb-5 relative shadow-md hover:shadow-xl transition-all duration-500 flex-shrink-0 group touch-pan-y"
                     onTouchStart={(e) => handleProductTouchStart(e, product.id)}
+                    onTouchMove={(e) => handleProductTouchMove(e, product.id)}
                     onTouchEnd={(e) => handleProductTouchEnd(e, product.id, images.length)}
                   >
+                    {/* Loading Spinner */}
                     {productImageLoading[product.id] && (
                       <div className="absolute inset-0 z-50 flex items-center justify-center bg-white/30 backdrop-blur-sm rounded-2xl sm:rounded-3xl">
                         <div className="w-10 h-10 border-4 border-stone-200 border-t-stone-900 rounded-full animate-spin"></div>
                       </div>
                     )}
+
                     <img 
-              
-                      src={currentImg} 
+                      src={productPendingIndex[product.id] !== undefined ? images[productPendingIndex[product.id]] : currentImg} 
                       alt={product.name} 
                       loading="lazy"
                       decoding="async"
                       onLoad={() => handleProductImageLoad(product.id)}
-                      className={`w-full h-full object-contain object-cover transition-transform duration-700 hover:scale-105`}
+                      className="w-full h-full object-center object-cover group-hover:scale-110 transition-all"
                       style={{
-                        opacity: productImageOpacity[product.id] !== undefined ? productImageOpacity[product.id] : 1
+                        transform: productSwiping[product.id] ? `translateX(${productSwipeOffset[product.id] || 0}%)` : 'translateX(0) scale(1)',
+                        transitionDuration: productSwiping[product.id] ? '0ms' : '800ms',
+                        opacity: productImageOpacity[product.id] !== undefined ? productImageOpacity[product.id] : 1,
+                        willChange: productSwiping[product.id] ? 'transform' : 'auto'
                       }}
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
@@ -536,16 +575,22 @@ const App = () => {
                     {/* Switch Indicators (Dynamic for any array length) */}
                     {images.length > 1 && (
                       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 flex justify-center gap-2">
-                        {images.map((_, idx) => (
-                          <button
-                            key={idx}
-                            onClick={() => requestProductImageChange(product.id, idx)}
-                            className={`h-2 rounded-full transition-all duration-300 ${
-                              idx === imgIndex ? 'w-6 bg-stone-800' : 'w-2 bg-stone-400 hover:bg-stone-600'
-                            }`}
-                            aria-label={`View image ${idx + 1}`}
-                          />
-                        ))}
+                        {images.map((_, idx) => {
+                          const activeDotIndex = productPendingIndex[product.id] !== undefined ? productPendingIndex[product.id] : imgIndex;
+                          return (
+                            <button
+                              key={idx}
+                              onClick={() => {
+                                setProductImageLoading({...productImageLoading, [product.id]: true});
+                                setProductPendingIndex({...productPendingIndex, [product.id]: idx});
+                              }}
+                              className={`h-2 rounded-full transition-all duration-300 ${
+                                idx === activeDotIndex ? 'w-6 bg-stone-800' : 'w-2 bg-stone-400 hover:bg-stone-600'
+                              }`}
+                              aria-label={`View image ${idx + 1}`}
+                            />
+                          );
+                        })}
                       </div>
                     )}
 
@@ -553,13 +598,13 @@ const App = () => {
                     {images.length > 1 && (
                       <>
                         <button 
-                          onClick={() => requestProductImageChange(product.id, (imgIndex - 1 + images.length) % images.length)}
+                          onClick={() => setProductImageIndex({...productImageIndex, [product.id]: (imgIndex - 1 + images.length) % images.length})}
                           className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 z-30 w-8 h-8 sm:w-9 sm:h-9 bg-white/70 hover:bg-white rounded-full flex items-center justify-center backdrop-blur-sm transition-all shadow-sm text-stone-800 hover:scale-110"
                         >
                           <ChevronLeft size={18} className="sm:w-5 sm:h-5" />
                         </button>
                         <button 
-                          onClick={() => requestProductImageChange(product.id, (imgIndex + 1) % images.length)}
+                          onClick={() => setProductImageIndex({...productImageIndex, [product.id]: (imgIndex + 1) % images.length})}
                           className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 z-30 w-8 h-8 sm:w-9 sm:h-9 bg-white/70 hover:bg-white rounded-full flex items-center justify-center backdrop-blur-sm transition-all shadow-sm text-stone-800 hover:scale-110"
                         >
                           <ChevronRight size={18} className="sm:w-5 sm:h-5" />
@@ -570,14 +615,14 @@ const App = () => {
                     {/* Label Badge: Simple Counter */}
                     {images.length > 1 && (
                       <div className="absolute top-2 sm:top-4 right-2 sm:right-4 bg-stone-900/80 text-white text-[8px] sm:text-[10px] font-bold px-2 sm:px-2.5 py-1 rounded-full uppercase tracking-wider z-30">
-                        {imgIndex + 1}/{images.length}
+                        {(productPendingIndex[product.id] !== undefined ? productPendingIndex[product.id] : imgIndex) + 1}/{images.length}
                       </div>
                     )}
 
                     {/* Order Button on Image */}
                     <div className="absolute bottom-3 right-3 z-20">
                       <a 
-                        href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Hi Rukaiya, I am interested in buying the ${product.name} (${product.price}).\nI saw this image: ${window.location.origin}${currentImg}`)}`}
+                        href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Hi Rukaiya, I am interested in buying the ${product.name} (${product.price}).\nI saw this image: ${currentImg}`)}`}
                         target="_blank" 
                         rel="noreferrer"
                         className="bg-[#25D366] text-white px-4 py-2 rounded-full flex items-center gap-2 shadow-lg hover:scale-105 transition-transform duration-300 font-bold text-sm"
