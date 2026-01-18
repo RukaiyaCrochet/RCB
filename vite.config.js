@@ -9,5 +9,5 @@ export default defineConfig({
   //   allowedHosts: [
   //     // You can add more hosts here if needed
   //   ]
-  // }
+  }
 })
