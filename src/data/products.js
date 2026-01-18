@@ -38,7 +38,7 @@ import sling6_model from '../assets/product/sling/sling6_model1.png'
 import sling7_1 from '../assets/product/sling/sling7.1.png'
 import sling7_2 from '../assets/product/sling/sling7.2.png'
 import sling7_3 from '../assets/product/sling/sling7.3.png'
-import sling7_model from '../assets/product/sling/sling7_model1 .png'
+import sling7_model from '../assets/product/sling/sling7_model1.png'
 
 import tote1 from '../assets/product/tote/tote1.png'
 import tote1_model from '../assets/product/tote/tote1_model1.png'
@@ -59,6 +59,9 @@ import potli5_1 from '../assets/product/potli/potli5.1.png'
 import potli5_2 from '../assets/product/potli/potli5.2.png'
 import potli5_model1 from '../assets/product/potli/potli5_model1.png'
 import potli5_model2 from '../assets/product/potli/potli5_model2.png'
+
+import basket1 from '../assets/product/basket/basket1.png'
+import basket1_model from '../assets/product/basket/basket1_model1.png'
 
 /**
  * Products data for Rukaiya Crochet Bags
@@ -336,5 +339,17 @@ export const products = [
     image: potli2,
     modelImage: potli2_model,
     tag: null
+  },
+  
+  // ===== BASKETS =====
+  {
+    id: 27,
+    name: "Natural Woven Basket",
+    price: "₹899",
+    originalPrice: "₹1,299",
+    category: "basket",
+    image: basket1,
+    modelImage: basket1_model,
+    tag: "New Arrival"
   }
 ]
