@@ -649,7 +649,7 @@ const App = () => {
             {/* <div className="w-full md:w-1/2"> */}
               {/* <div className="aspect-[4/5] rounded-[2rem] overflow-hidden shadow-2xl relative"> */}
                 {/* <img 
-                  src="https://images.unsplash.com/photo-1517260739337-6799d2eb9ce0?auto=format&fit=crop&q=80&w=800" 
+                  src="" 
                   alt="Crafting Process" 
                   className="w-full h-full object-cover"
                 /> */}

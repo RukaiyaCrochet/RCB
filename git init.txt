@@ -1,0 +1,17 @@
+git init
+git add .
+git commit -m "second upload"
+git branch -M main
+git remote add origin https://github.com/RukaiyaCrochet/rukaiya-crochet-website.git
+git push -u origin main
+
+
+git init
+git add .
+git commit -m "First upload"
+git branch -M main
+git remote add origin https://github.com/RukaiyaCrochet/RCB.git
+git push -u origin main
+
+
+PS C:\Users\hatim\Desktop\rcb> git add . ; git commit -m "Add new handbag images" ; git push origin main
