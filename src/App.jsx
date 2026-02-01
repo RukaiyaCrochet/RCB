@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ShoppingBag, Instagram, Mail, Menu, X, Heart, Star, ArrowRight, CheckCircle, ChevronLeft, ChevronRight, ExternalLink, Truck, ShieldCheck, FileText, ArrowUp, Quote, Camera } from 'lucide-react';
+import { ShoppingBag, Instagram, Mail, Menu, X, Heart, Star, ArrowRight, CheckCircle, ChevronLeft, ChevronRight, ExternalLink, Truck, ShieldCheck, FileText, ArrowUp, Quote, Camera, MapPin, Phone } from 'lucide-react';
 import { heroSlides } from './data/heroSlides.js';
 import { products } from './data/products.js';
 
@@ -24,26 +24,97 @@ const App = () => {
 
   // --- DATA ---
 
-  // const testimonials = [
-  //   // {
-  //   //   id: 1,
-  //   //   text: "The quality is absolutely amazing! The yarn is so soft and the stitching is perfect. Loved the custom color combo.",
-  //   //   name: "Aisha K.",
-  //   //   location: "Mumbai"
-  //   // },
-  //   // {
-  //   //   id: 2,
-  //   //   text: "Received so many compliments on my tote bag. It's spacious and stylish. Rukaiya is so sweet to work with!",
-  //   //   name: "Priya S.",
-  //   //   location: "Bangalore"
-  //   // },
-  //   // {
-  //   //   id: 3,
-  //   //   text: "Ordered a potli for my wedding and it matched my outfit perfectly. The craftsmanship is top-notch.",
-  //   //   name: "Sneha R.",
-  //   //   location: "Delhi"
-  //   // }
-  // ];
+  // Add JSON-LD Structured Data for SEO
+  useEffect(() => {
+    // Organization Schema
+    const organizationSchema = {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Rukaiya Crochet Bags",
+      "url": "https://rukaiyacrochetbags.vercel.app",
+      "logo": "https://rukaiyacrochetbags.vercel.app/logo.png",
+      "description": "Handmade crochet bags, handbags, slings, totes, and potlis crafted with love in India",
+      "founder": {
+        "@type": "Person",
+        "name": "Rukaiya"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+91-9574574251",
+        "contactType": "Customer Service",
+        "availableLanguage": ["English", "Hindi"]
+      },
+      "sameAs": [
+        "https://www.instagram.com/rukaiya_crochet_bags/"
+      ]
+    };
+
+    // Website Schema
+    const websiteSchema = {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Rukaiya Crochet Bags",
+      "url": "https://rukaiyacrochetbags.vercel.app",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://rukaiyacrochetbags.vercel.app/#collection?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    };
+
+    // Product Collection Schema
+    const productSchema = {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": "Handmade Crochet Bags Collection",
+      "description": "Browse our collection of handcrafted crochet bags including handbags, slings, totes, and potlis",
+      "numberOfItems": products.length,
+      "itemListElement": products.slice(0, 10).map((product, index) => ({
+        "@type": "ListItem",
+        "position": index + 1,
+        "item": {
+          "@type": "Product",
+          "name": product.name,
+          "description": `Handmade crochet ${product.category} - ${product.name}`,
+          "category": product.category,
+          "offers": {
+            "@type": "Offer",
+            "price": product.price.replace(/[^0-9]/g, ''),
+            "priceCurrency": "INR",
+            "availability": "https://schema.org/InStock",
+            "seller": {
+              "@type": "Organization",
+              "name": "Rukaiya Crochet Bags"
+            }
+          }
+        }
+      }))
+    };
+
+    // Insert schemas into DOM
+    const schemas = [organizationSchema, websiteSchema, productSchema];
+    schemas.forEach((schema, index) => {
+      const script = document.createElement('script');
+      script.type = 'application/ld+json';
+      script.text = JSON.stringify(schema);
+      script.id = `schema-${index}`;
+      
+      // Remove existing schema if present
+      const existing = document.getElementById(`schema-${index}`);
+      if (existing) existing.remove();
+      
+      document.head.appendChild(script);
+    });
+
+    return () => {
+      // Cleanup schemas on unmount
+      schemas.forEach((_, index) => {
+        const script = document.getElementById(`schema-${index}`);
+        if (script) script.remove();
+      });
+    };
+  }, []);
+
 
   // --- POLICIES DATA ---
   const policies = {
@@ -338,11 +409,12 @@ const App = () => {
                 <Star size={12} fill="currentColor" /> Handcrafted with Love
               </div>
               <h1 className="text-4xl sm:text-5xl lg:text-7xl font-serif leading-tight text-stone-900 drop-shadow-sm">
-                Har Stitch Mein <br />
-                <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-rose-600">Mohabbat</span>
+                Handmade Crochet Bags<br />
+                <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-rose-600">Crafted in India</span>
               </h1>
               <p className="text-sm sm:text-lg text-stone-500 leading-relaxed max-w-md mx-auto lg:mx-0">
-                Explore our handmade crochet bag collection.
+                Discover beautiful handcrafted crochet handbags, sling bags, tote bags, and potlis. 
+                100% handmade with premium cotton yarn. Custom colors available.
               </p>
               
               {/* Call to Actions */}
@@ -383,7 +455,7 @@ const App = () => {
                   >
                     <img 
                       src={slide.image} 
-                      alt={`Hero slide ${slide.id}`} 
+                      alt={`Handmade crochet bags collection - Slide ${slide.id} | Beautiful handcrafted accessories`}
                       className="w-full h-full object-cover object-center"
                       loading="eager"
                       decoding="async"
@@ -431,11 +503,15 @@ const App = () => {
       {/* --- FEATURES MODULE --- */}
       <div className="bg-rose-50 py-10 sm:py-16 lg:py-20">
         <div className="container mx-auto px-6">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl sm:text-3xl font-serif text-stone-900">Why Choose Handmade Crochet Bags?</h2>
+            <p className="text-stone-600 mt-2 text-sm sm:text-base">Sustainable, unique, and crafted with care</p>
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
             {[
-              { title: "Customizable Colors", desc: "Pick your palette for any design", icon: "🎨" },
-              { title: "Eco-Friendly Yarn", desc: "Sustainable & durable materials", icon: "🌿" },
-              { title: "Worldwide Shipping", desc: "Delivered safely to your doorstep", icon: "🚚" }
+              { title: "100% Customizable", desc: "Choose your colors and design preferences", icon: "🎨" },
+              { title: "Eco-Friendly Premium Yarn", desc: "Sustainable, durable, and soft cotton materials", icon: "🌿" },
+              { title: "Free Shipping India", desc: "Free delivery on orders above ₹1499", icon: "🚚" }
             ].map((feature, i) => (
               <div key={i} className="flex flex-col items-center sm:items-start sm:flex-row sm:gap-4 gap-3 p-4 sm:p-6 bg-white/50 rounded-xl sm:rounded-2xl border border-white hover:bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 cursor-default">
                 <div className="text-3xl sm:text-4xl bg-white p-2 sm:p-3 rounded-full shadow-sm flex-shrink-0 flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14">{feature.icon}</div>
@@ -513,7 +589,7 @@ const App = () => {
                     <img 
               
                       src={currentImg} 
-                      alt={product.name} 
+                      alt={`${product.name} - Handmade crochet ${product.category} bag in India | Buy online`}
                       loading="lazy"
                       decoding="async"
                       onLoad={() => handleProductImageLoad(product.id)}
@@ -580,7 +656,7 @@ const App = () => {
                         href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Hi Rukaiya, I am interested in buying the ${product.name} (${product.price}).\nI saw this image: ${window.location.origin}${currentImg}`)}`}
                         target="_blank" 
                         rel="noreferrer"
-                        className="bg-[#25D366] text-white px-4 py-2 rounded-full flex items-center gap-2 shadow-lg hover:scale-105 transition-transform duration-300 font-bold text-sm"
+                        className="bg-gradient-to-r from-[#25D366] to-emerald-400 text-white px-4 py-2 rounded-full flex items-center gap-2 shadow-lg shadow-green-300/40 hover:shadow-xl hover:shadow-green-400/60 hover:-translate-y-0.5 hover:scale-[1.03] transition-all duration-300 font-bold text-sm ring-1 ring-white/40"
                       >
                         <WhatsAppIcon size={18} /> Order Now
                       </a>
@@ -659,18 +735,21 @@ const App = () => {
               </div> */}
             {/* </div> */}
             <div className="w-full md:w-1/2 space-y-6">
-              <span className="text-rose-500 font-bold tracking-widest text-xs uppercase">Meet the Artist</span>
-              <h2 className="text-3xl sm:text-4xl font-serif text-stone-900">Crafted with Soul, <br/>Stitched with Love.</h2>
+              <span className="text-rose-500 font-bold tracking-widest text-xs uppercase">About Us</span>
+              <h2 className="text-3xl sm:text-4xl font-serif text-stone-900">Handcrafted Crochet Bags Made in India</h2>
               <p className="text-stone-600 leading-relaxed">
-                Hi, I'm <strong>Rukaiya</strong>. What started as a small hobby has grown into a passion for creating sustainable, stylish accessories. 
+                Hi, I'm <strong>Rukaiya</strong>. Every crochet bag you see is personally handmade by me using premium quality cotton yarn. 
+                What started as a passion project has grown into a small business dedicated to sustainable fashion and unique handcrafted accessories.
               </p>
               <p className="text-stone-600 leading-relaxed">
-                Every bag is hand-crocheted by me in India. I believe in slow fashion that looks good and feels even better.
+                Each handmade crochet bag takes hours of careful work - from selecting the perfect yarn colors to stitching every detail with precision. 
+                Whether you're looking for a stylish crochet handbag, practical tote bag, trendy sling bag, or elegant potli for weddings, 
+                I create each piece with love and attention to detail.
               </p>
               <div className="flex gap-4 pt-2">
                 <div className="flex flex-col items-center p-3 bg-white rounded-xl shadow-sm w-24">
                   <span className="text-2xl font-bold text-stone-800">80+</span>
-                  <span className="text-[10px] text-stone-500 uppercase tracking-wide">Orders</span>
+                  <span className="text-[10px] text-stone-500 uppercase tracking-wide">Happy Customers</span>
                 </div>
                 <div className="flex flex-col items-center p-3 bg-white rounded-xl shadow-sm w-24">
                   <span className="text-2xl font-bold text-stone-800">100%</span>
@@ -751,6 +830,50 @@ const App = () => {
                     </li>
                   ))}
                 </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* --- FAQ SECTION FOR SEO --- */}
+      <section className="py-16 sm:py-20 bg-white">
+        <div className="container mx-auto px-6">
+          <div className="max-w-3xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl sm:text-4xl font-serif text-stone-900 mb-3">Frequently Asked Questions</h2>
+              <p className="text-stone-600">Everything you need to know about handmade crochet bags</p>
+            </div>
+            
+            <div className="space-y-6">
+              <div className="bg-stone-50 p-6 rounded-2xl">
+                <h3 className="font-bold text-stone-900 mb-2 text-lg">What are crochet bags made of?</h3>
+                <p className="text-stone-600 leading-relaxed">Our crochet bags are made from 100% premium cotton yarn. This makes them durable, soft, and eco-friendly. Unlike synthetic materials, cotton crochet bags are sustainable and biodegradable.</p>
+              </div>
+              
+              <div className="bg-stone-50 p-6 rounded-2xl">
+                <h3 className="font-bold text-stone-900 mb-2 text-lg">How long does it take to make a handmade crochet bag?</h3>
+                <p className="text-stone-600 leading-relaxed">Each handcrafted crochet bag takes 6-15 hours to complete, depending on the design complexity. Larger tote bags take longer, while smaller potlis are quicker. Every stitch is done by hand with care.</p>
+              </div>
+              
+              <div className="bg-stone-50 p-6 rounded-2xl">
+                <h3 className="font-bold text-stone-900 mb-2 text-lg">Can I customize the colors of my crochet bag?</h3>
+                <p className="text-stone-600 leading-relaxed">Yes! We offer fully customizable colors for all our crochet bags. Choose your favorite color combinations and we'll handcraft a unique bag just for you. Custom orders take 7-14 days.</p>
+              </div>
+              
+              <div className="bg-stone-50 p-6 rounded-2xl">
+                <h3 className="font-bold text-stone-900 mb-2 text-lg">Are crochet bags durable?</h3>
+                <p className="text-stone-600 leading-relaxed">Absolutely! Our handmade crochet bags are made with high-quality cotton yarn and tight stitching techniques. With proper care, they can last for years. They're perfect for daily use or special occasions.</p>
+              </div>
+              
+              <div className="bg-stone-50 p-6 rounded-2xl">
+                <h3 className="font-bold text-stone-900 mb-2 text-lg">Do you ship crochet bags all over India?</h3>
+                <p className="text-stone-600 leading-relaxed">Yes! We ship handmade crochet bags across India. Metro cities receive delivery in 3-5 days, other areas in 5-7 days. We also offer free shipping on orders above ₹1499.</p>
+              </div>
+              
+              <div className="bg-stone-50 p-6 rounded-2xl">
+                <h3 className="font-bold text-stone-900 mb-2 text-lg">What types of crochet bags do you offer?</h3>
+                <p className="text-stone-600 leading-relaxed">We create various styles including crochet handbags, sling bags, tote bags, potli bags (perfect for weddings), and basket bags. Each category has multiple designs and all are available in custom colors.</p>
               </div>
             </div>
           </div>
@@ -854,9 +977,21 @@ const App = () => {
               <span className="text-2xl sm:text-3xl font-serif text-white block mb-2 tracking-wide">
                 Rukaiya Crochet Bags<span className="text-rose-400">.</span>
               </span>
-              <p className="max-w-xs mx-auto md:mx-0 text-stone-500 text-sm sm:text-base">
-                Weaving dreams into reality, one stitch at a time. Handcrafted in India.
+              <p className="max-w-xs mx-auto md:mx-0 text-stone-500 text-sm sm:text-base mb-4">
+                Handmade crochet bags crafted with love in India. 
+                Shop crochet handbags, slings, totes, and potlis online.
               </p>
+              <div className="text-xs text-stone-600 space-y-2">
+                <p className="flex items-center gap-2">
+                  <MapPin size={14} className="text-rose-400" /> Made in India
+                </p>
+                <p className="flex items-center gap-2">
+                  <Phone size={14} className="text-green-400" /> WhatsApp: +91 9574574251
+                </p>
+                <p className="flex items-center gap-2">
+                  <Instagram size={14} className="text-pink-400" /> Contact via Instagram DM
+                </p>
+              </div>
             </div>
             
             <div className="flex gap-4 sm:gap-6">
@@ -864,6 +999,7 @@ const App = () => {
                 href={INSTAGRAM_URL}
                 target="_blank" 
                 rel="noreferrer" 
+                aria-label="Follow us on Instagram"
                 className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-stone-800 flex items-center justify-center hover:bg-gradient-to-tr hover:from-purple-500 hover:to-orange-500 hover:text-white transition-all duration-300"
               >
                 <Instagram size={24} />
@@ -872,6 +1008,7 @@ const App = () => {
                 href={`https://wa.me/${WHATSAPP_NUMBER}`}
                 target="_blank" 
                 rel="noreferrer" 
+                aria-label="Chat on WhatsApp"
                 className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-stone-800 flex items-center justify-center hover:bg-[#25D366] hover:text-white transition-all duration-300"
               >
                 <WhatsAppIcon size={24} />
@@ -879,12 +1016,23 @@ const App = () => {
             </div>
           </div>
           
-          <div className="border-t border-stone-800 pt-6 sm:pt-8 flex flex-col md:flex-row justify-between items-center text-xs sm:text-sm gap-3 sm:gap-4">
-            <p>&copy; {new Date().getFullYear()} Rukaiya Crochet Bags. All rights reserved.</p>
-            <div className="flex gap-4 sm:gap-6 font-medium">
-              <button onClick={() => setActivePolicy('privacy')} className="hover:text-white transition-colors">Privacy Policy</button>
-              <button onClick={() => setActivePolicy('shipping')} className="hover:text-white transition-colors">Shipping</button>
-              <button onClick={() => setActivePolicy('terms')} className="hover:text-white transition-colors">Terms</button>
+          <div className="border-t border-stone-800 pt-6 sm:pt-8">
+            <div className="flex flex-col md:flex-row justify-between items-center text-xs sm:text-sm gap-4 sm:gap-6 mb-6">
+              <div className="flex flex-wrap justify-center gap-4 sm:gap-6 font-medium">
+                <button onClick={() => setActivePolicy('privacy')} className="hover:text-white transition-colors">Privacy Policy</button>
+                <button onClick={() => setActivePolicy('shipping')} className="hover:text-white transition-colors">Shipping Policy</button>
+                <button onClick={() => setActivePolicy('terms')} className="hover:text-white transition-colors">Terms & Conditions</button>
+                <a href="#about" className="hover:text-white transition-colors">About Us</a>
+                <a href="#reseller" className="hover:text-white transition-colors">Become a Reseller</a>
+              </div>
+            </div>
+            
+            <div className="text-center text-xs text-stone-600">
+              <p className="mb-2">&copy; {new Date().getFullYear()} Rukaiya Crochet Bags. All rights reserved.</p>
+              <p className="text-[10px]">
+                Keywords: Handmade crochet bags, buy crochet bags online India, custom crochet handbags, 
+                eco-friendly bags, sustainable fashion accessories, crochet tote bags, sling bags, potli bags
+              </p>
             </div>
           </div>
         </div>
