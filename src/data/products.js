@@ -216,7 +216,7 @@ export const products = [
     category: "sling",
     image: sling3,
     modelImage: sling3_model,
-    tag: null
+    tag: "Popular"
   },
   {
     id: 15,
