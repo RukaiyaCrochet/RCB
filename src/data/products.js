@@ -79,7 +79,7 @@ export const products = [
   // ===== HANDBAGS =====
   {
     id: 1,
-    name: "Marshmallow Handbag",
+    name: "Candy Marshmallow Handbag",
     price: "₹1,799",
     originalPrice: "₹2,199",
     category: "handbag",
@@ -160,8 +160,8 @@ export const products = [
   {
     id: 9,
     name: "Candy Mallow CMX-P Handbag",
-    price: "₹1,599",
-    originalPrice: "₹1,999",
+    price: "₹1,499",
+    originalPrice: "₹1,799",
     category: "handbag",
     image: handbag9,
     modelImage: handbag9_model,
@@ -170,8 +170,8 @@ export const products = [
   {
     id: 10,
     name: "Elegant Moon Collection Bag",
-    price: "₹1,599",
-    originalPrice: "₹1,999",
+    price: "₹999",
+    originalPrice: "₹1,299",
     category: "handbag",
     images: [handbag10_1, handbag10_2, handbag10_model1, handbag10_model2],
     tag: "New Arrival"
@@ -262,8 +262,8 @@ export const products = [
   {
     id: 19,
     name: "Rustic Rose Tote",
-    price: "₹2,399",
-    originalPrice: "₹2,699",
+    price: "₹1799",
+    originalPrice: "₹2,199",
     category: "tote",
     image: tote1,
     modelImage: tote1_model,
@@ -272,8 +272,8 @@ export const products = [
   {
     id: 20,
     name: "Cream Elegance Tote",
-    price: "₹2,199",
-    originalPrice: "₹2,599",
+    price: "₹1,559",
+    originalPrice: "₹1,999",
     category: "tote",
     image: tote2,
     modelImage: tote2_model,
@@ -282,8 +282,8 @@ export const products = [
   {
     id: 21,
     name: "Summer Horizon Tote",
-    price: "₹1,999",
-    originalPrice: "₹2,399",
+    price: "₹1,199",
+    originalPrice: "₹1,499",
     category: "tote",
     image: tote3,
     modelImage: tote3_model,

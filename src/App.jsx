@@ -656,7 +656,7 @@ const App = () => {
                         href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Hi Rukaiya, I am interested in buying the ${product.name} (${product.price}).\nI saw this image: ${window.location.origin}${currentImg}`)}`}
                         target="_blank" 
                         rel="noreferrer"
-                        className="bg-gradient-to-r from-[#25D366] to-emerald-400 text-white px-4 py-2 rounded-full flex items-center gap-2 shadow-lg shadow-green-300/40 hover:shadow-xl hover:shadow-green-400/60 hover:-translate-y-0.5 hover:scale-[1.03] transition-all duration-300 font-bold text-sm ring-1 ring-white/40"
+                        className="btn-order-now btn-order-float btn-order-slide btn-order-pulse ring-1 ring-white/40"
                       >
                         <WhatsAppIcon size={18} /> Order Now
                       </a>

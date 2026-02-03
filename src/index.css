@@ -13,3 +13,103 @@
     @apply font-serif;
   }
 }
+
+@layer utilities {
+  /* Order Now Button Animation */
+  .btn-order-now {
+    @apply relative inline-flex items-center gap-2 px-4 py-2 rounded-full font-bold text-sm transition-all duration-300;
+    background: linear-gradient(135deg, #25D366 0%, #20c95a 50%, #1db952 100%);
+    color: white;
+    transform: translateZ(0);
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+  }
+
+  .btn-order-now::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 9999px;
+    padding: 2px;
+    background: linear-gradient(90deg, 
+      #f89f9f,
+      #e9eea1 , 
+      #90f4b5 , 
+      #92ece7 , 
+      #d988f9
+    );
+
+
+    background-size: 300% 100%;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: border-rotate 3s linear infinite;
+    z-index: -1;
+  }
+
+  @keyframes border-rotate {
+    0% {
+      background-position: 0% 50%;
+    }
+    100% {
+      background-position: 300% 50%;
+    }
+  }
+
+  .btn-order-now:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 25px rgba(37, 211, 102, 0.6);
+    background: linear-gradient(135deg, #20c95a 0%, #1db952 50%, #16a34a 100%);
+  }
+
+  .btn-order-now:active {
+    @apply scale-95;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4), 0 0 20px rgba(37, 211, 102, 0.2);
+    }
+    50% {
+      box-shadow: 0 6px 25px rgba(37, 211, 102, 0.6), 0 0 30px rgba(37, 211, 102, 0.3);
+    }
+  }
+
+  .btn-order-pulse {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  @keyframes float-up {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-4px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+
+  .btn-order-float {
+    animation: float-up 3s ease-in-out infinite;
+  }
+
+  @keyframes slide-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .btn-order-slide {
+    animation: slide-in 0.6s ease-out;
+  }
+}
