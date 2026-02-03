@@ -457,7 +457,8 @@ const App = () => {
                       src={slide.image} 
                       alt={`Handmade crochet bags collection - Slide ${slide.id} | Beautiful handcrafted accessories`}
                       className="w-full h-full object-cover object-center"
-                      loading="eager"
+                      loading={index === currentSlide ? "eager" : "lazy"}
+                      fetchPriority={index === currentSlide ? "high" : "low"}
                       decoding="async"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 60vw, 40vw"
                     />
