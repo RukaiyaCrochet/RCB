@@ -120,7 +120,7 @@ export const products = [
   {
     id: 5,
     name: "Candy Mallow CMX-R Handbag",
-    price: "₹1,599",
+    price: "₹1,559",
     originalPrice: "₹1,999",
     category: "handbag",
     image: handbag5,
@@ -150,7 +150,7 @@ export const products = [
   {
     id: 8,
     name: "Grey Elegance Handbag",
-    price: "₹1,599",
+    price: "₹1,499",
     originalPrice: "₹1,999",
     category: "handbag",
     image: handbag8,
@@ -179,7 +179,7 @@ export const products = [
   {
     id: 11,
     name: "Vanilla & Caramel handbag",
-    price: "₹1,599",
+    price: "₹1,699",
     originalPrice: "₹1,999",
     category: "handbag",
     image: handbag11,

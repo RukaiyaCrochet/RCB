@@ -670,7 +670,7 @@ const App = () => {
                       {product.category} Collection
                     </div>
 
-                    <h3 className="text-lg sm:text-xl font-serif font-bold text-stone-800 group-hover:text-rose-600 transition-colors mb-2 line-clamp-1">
+                    <h3 className="text-lg sm:text-xl font-serif text-stone-900 group-hover:text-rose-600 transition-colors mb-2 line-clamp-1">
                       {product.name}
                     </h3>
                     
