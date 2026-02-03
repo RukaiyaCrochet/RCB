@@ -680,15 +680,6 @@ const App = () => {
                         Save ₹{parseInt(product.originalPrice.replace(/[^0-9]/g, '')) - parseInt(product.price.replace(/[^0-9]/g, ''))}
                       </span>
                     </div>
-
-                    {/* <div className="flex flex-wrap gap-2 mb-4 text-[10px] text-stone-500 font-medium">
-                      <span className="flex items-center gap-1 bg-stone-50 px-2 py-1 rounded-md">
-                        <Heart size={10} className="text-rose-400" /> Handmade
-                      </span>
-                      <span className="flex items-center gap-1 bg-stone-50 px-2 py-1 rounded-md">
-                        <Star size={10} className="text-amber-400" /> Premium
-                      </span>
-                    </div> */}
                   </div>
                 </div>
               );
@@ -722,18 +713,6 @@ const App = () => {
         <div className="absolute top-0 right-0 w-64 h-64 bg-rose-100 rounded-full blur-3xl opacity-30 -translate-y-1/2 translate-x-1/4"></div>
         <div className="container mx-auto px-6 relative">
           <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-10 md:gap-16">
-            {/* <div className="w-full md:w-1/2"> */}
-              {/* <div className="aspect-[4/5] rounded-[2rem] overflow-hidden shadow-2xl relative"> */}
-                {/* <img 
-                  src="" 
-                  alt="Crafting Process" 
-                  className="w-full h-full object-cover"
-                /> */}
-                {/* <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-6 text-white">
-                  <p className="font-serif text-lg italic">"Creating joy with yarn"</p>
-                </div>
-              </div> */}
-            {/* </div> */}
             <div className="w-full md:w-1/2 space-y-6">
               <span className="text-rose-500 font-bold tracking-widest text-xs uppercase">About Us</span>
               <h2 className="text-3xl sm:text-4xl font-serif text-stone-900">Handcrafted Crochet Bags Made in India</h2>
@@ -880,36 +859,6 @@ const App = () => {
         </div>
       </section>
 
-      {/* --- INSTAGRAM FEED MODULE --- */}
-      {/* <section className="py-8 bg-white border-t border-stone-100">
-        <div className="flex justify-between items-end px-6 mb-6 container mx-auto">
-          <div>
-            <h3 className="text-xl font-bold text-stone-900 font-serif">Follow Us</h3>
-            <p className="text-xs text-stone-500">@rukaiya_crochet_bags</p>
-          </div>
-          <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="text-rose-500 text-sm font-bold flex items-center gap-1 hover:gap-2 transition-all">
-            See All <ArrowRight size={16} />
-          </a>
-        </div>
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-1 sm:gap-2">
-          {[
-            "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&q=80&w=300",
-            "https://images.unsplash.com/photo-1613481236528-662585a0655c?auto=format&fit=crop&q=80&w=300",
-            "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=300",
-            "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&q=80&w=300",
-            "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&q=80&w=300",
-            "https://images.unsplash.com/photo-1566150905458-1bf1dad1fb56?auto=format&fit=crop&q=80&w=300"
-          ].map((src, i) => (
-            <a key={i} href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="group relative aspect-square overflow-hidden block">
-              <img src={src} alt="Instagram Post" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-              <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <Instagram className="text-white" size={24} />
-              </div>
-            </a>
-          ))}
-        </div>
-      </section> */}
-
       {/* --- FLOATING ACTION BUTTON --- */}
       <a 
         href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hi Rukaiya! I'm browsing your website.")}`}
@@ -981,17 +930,6 @@ const App = () => {
                 Handmade crochet bags crafted with love in India. 
                 Shop crochet handbags, slings, totes, and potlis online.
               </p>
-              <div className="text-xs text-stone-600 space-y-2">
-                <p className="flex items-center gap-2">
-                  <MapPin size={14} className="text-rose-400" /> Made in India
-                </p>
-                <p className="flex items-center gap-2">
-                  <Phone size={14} className="text-green-400" /> WhatsApp: +91 9574574251
-                </p>
-                <p className="flex items-center gap-2">
-                  <Instagram size={14} className="text-pink-400" /> Contact via Instagram DM
-                </p>
-              </div>
             </div>
             
             <div className="flex gap-4 sm:gap-6">
