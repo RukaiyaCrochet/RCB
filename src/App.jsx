@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ShoppingBag, Instagram, Mail, Menu, X, Heart, Star, ArrowRight, CheckCircle, ChevronLeft, ChevronRight, ExternalLink, Truck, ShieldCheck, FileText, ArrowUp, Quote, Camera, MapPin, Phone } from 'lucide-react';
+import { ShoppingBag, Instagram, Mail, Menu, X, Heart, Star, ArrowRight, CheckCircle, ChevronLeft, ChevronRight, ExternalLink, Truck, ShieldCheck, FileText, ArrowUp, Quote, Camera, MapPin, Phone, Palette, Leaf, Package } from 'lucide-react';
 import { heroSlides } from './data/heroSlides.js';
 import { products } from './data/products.js';
 
@@ -242,9 +242,15 @@ const App = () => {
   const requestProductImageChange = (productId, nextIndex) => {
     const currentIndex = productImageIndex[productId] || 0;
     if (nextIndex === currentIndex) return;
-    setProductImageOpacity((prev) => ({ ...prev, [productId]: 0 }));
+    
+    // Start fade out with blur effect
+    setProductImageOpacity((prev) => ({ ...prev, [productId]: 0.3 }));
     setProductImageLoading((prev) => ({ ...prev, [productId]: true }));
-    setProductPendingIndex((prev) => ({ ...prev, [productId]: nextIndex }));
+    
+    // Delay image change slightly for smoother transition
+    setTimeout(() => {
+      setProductPendingIndex((prev) => ({ ...prev, [productId]: nextIndex }));
+    }, 150);
   };
 
   const handleProductTouchStart = (e, productId) => {
@@ -272,8 +278,12 @@ const App = () => {
       setProductImageIndex((prev) => ({ ...prev, [productId]: pendingIndex }));
       setProductPendingIndex((prev) => ({ ...prev, [productId]: undefined }));
     }
-    setProductImageLoading((prev) => ({ ...prev, [productId]: false }));
-    setProductImageOpacity((prev) => ({ ...prev, [productId]: 1 }));
+    
+    // Smooth fade-in after image loads
+    setTimeout(() => {
+      setProductImageLoading((prev) => ({ ...prev, [productId]: false }));
+      setProductImageOpacity((prev) => ({ ...prev, [productId]: 1 }));
+    }, 100);
   };
 
   const handleNavClick = () => setIsMenuOpen(false);
@@ -304,7 +314,7 @@ const App = () => {
       <div className="bg-gradient-to-r from-rose-500 to-rose-400 text-white py-2 sm:py-3 fixed top-0 w-full z-[60] shadow-md">
         <div className="container mx-auto px-6 text-center">
           <p className="text-xs sm:text-sm md:text-base font-semibold tracking-wide animate-pulse">
-            ✨ Custom Orders Open | Free Shipping on Orders Above ₹1499 ✨
+            ✨ Custom Orders Open | Free Shipping on Orders Above ₹4999 ✨
           </p>
         </div>
       </div>
@@ -510,12 +520,14 @@ const App = () => {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
             {[
-              { title: "100% Customizable", desc: "Choose your colors and design preferences", icon: "🎨" },
-              { title: "Eco-Friendly Premium Yarn", desc: "Sustainable, durable, and soft cotton materials", icon: "🌿" },
-              { title: "Free Shipping India", desc: "Free delivery on orders above ₹1499", icon: "🚚" }
+              { title: "100% Customizable", desc: "Choose your colors and design preferences", Icon: Palette, color: "text-pink-600", bg: "bg-pink-50" },
+              { title: "Eco-Friendly Premium Yarn", desc: "Sustainable, durable, and soft cotton materials", Icon: Leaf, color: "text-green-600", bg: "bg-green-50" },
+              { title: "Free Shipping India", desc: "Free delivery on orders above ₹4999", Icon: Truck, color: "text-blue-600", bg: "bg-blue-50" }
             ].map((feature, i) => (
               <div key={i} className="flex flex-col items-center sm:items-start sm:flex-row sm:gap-4 gap-3 p-4 sm:p-6 bg-white/50 rounded-xl sm:rounded-2xl border border-white hover:bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 cursor-default">
-                <div className="text-3xl sm:text-4xl bg-white p-2 sm:p-3 rounded-full shadow-sm flex-shrink-0 flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14">{feature.icon}</div>
+                <div className={`${feature.bg} p-3 sm:p-4 rounded-full shadow-sm flex-shrink-0 flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14`}>
+                  <feature.Icon className={`${feature.color} w-6 h-6 sm:w-7 sm:h-7`} strokeWidth={2.5} />
+                </div>
                 <div className="min-w-0 text-center sm:text-left">
                   <h3 className="font-bold text-base sm:text-lg text-stone-800">{feature.title}</h3>
                   <p className="text-xs sm:text-sm text-stone-500 mt-1">{feature.desc}</p>
@@ -531,7 +543,7 @@ const App = () => {
         <div className="container mx-auto px-6">
           
           {/* Custom Order Disclaimer Banner */}
-          <div className="mb-12 sm:mb-16 max-w-3xl mx-auto text-center">
+          <div className="mb-12 sm:mb-16 max-w-3x2 mx-auto text-center">
              <div className="inline-block p-6 sm:p-8 rounded-3xl bg-rose-50 border border-rose-100/50 shadow-sm">
               <p className="text-stone-600 leading-relaxed font-medium text-sm sm:text-base">
                 <span className="font-serif text-rose-500 text-lg sm:text-xl font-bold block mb-2">✨ Note on Custom Orders</span>
@@ -583,8 +595,11 @@ const App = () => {
                     onTouchEnd={(e) => handleProductTouchEnd(e, product.id, images.length)}
                   >
                     {productImageLoading[product.id] && (
-                      <div className="absolute inset-0 z-50 flex items-center justify-center bg-white/30 backdrop-blur-sm rounded-2xl sm:rounded-3xl">
-                        <div className="w-10 h-10 border-4 border-stone-200 border-t-stone-900 rounded-full animate-spin"></div>
+                      <div className="absolute inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-white/40 to-stone-50/40 backdrop-blur-md rounded-2xl sm:rounded-3xl transition-all duration-300">
+                        <div className="relative">
+                          <div className="w-12 h-12 border-4 border-stone-200/60 rounded-full"></div>
+                          <div className="w-12 h-12 border-4 border-transparent border-t-rose-500 border-r-rose-400 rounded-full animate-spin absolute top-0 left-0"></div>
+                        </div>
                       </div>
                     )}
                     <img 
@@ -594,9 +609,11 @@ const App = () => {
                       loading="lazy"
                       decoding="async"
                       onLoad={() => handleProductImageLoad(product.id)}
-                      className={`w-full h-full object-contain object-cover transition-transform duration-700 hover:scale-105`}
+                      className={`w-full h-full object-contain object-cover transition-all duration-500 ease-in-out hover:scale-105`}
                       style={{
-                        opacity: productImageOpacity[product.id] !== undefined ? productImageOpacity[product.id] : 1
+                        opacity: productImageOpacity[product.id] !== undefined ? productImageOpacity[product.id] : 1,
+                        filter: productImageOpacity[product.id] < 0.5 ? 'blur(8px)' : 'blur(0px)',
+                        transition: 'opacity 0.5s ease-in-out, filter 0.3s ease-out, transform 0.7s ease-out'
                       }}
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
@@ -848,7 +865,7 @@ const App = () => {
               
               <div className="bg-stone-50 p-6 rounded-2xl">
                 <h3 className="font-bold text-stone-900 mb-2 text-lg">Do you ship crochet bags all over India?</h3>
-                <p className="text-stone-600 leading-relaxed">Yes! We ship handmade crochet bags across India. Metro cities receive delivery in 3-5 days, other areas in 5-7 days. We also offer free shipping on orders above ₹1499.</p>
+                <p className="text-stone-600 leading-relaxed">Yes! We ship handmade crochet bags across India. Metro cities receive delivery in 3-5 days, other areas in 5-7 days. We also offer free shipping on orders above ₹4999.</p>
               </div>
               
               <div className="bg-stone-50 p-6 rounded-2xl">

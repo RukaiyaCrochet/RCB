@@ -155,7 +155,7 @@ export const products = [
     category: "handbag",
     image: handbag8,
     modelImage: handbag8_model,
-    tag: "New Arrival"
+    tag: "Popular"
   },
   {
     id: 9,
@@ -184,7 +184,7 @@ export const products = [
     category: "handbag",
     image: handbag11,
     modelImage: handbag11_model1,
-    tag: "Popular"
+    tag: "New Arrival"
   },
 
   // ===== SLING BAGS =====
@@ -206,8 +206,9 @@ export const products = [
     category: "sling",
     image: sling2,
     modelImage: sling2_model,
-    tag: "Premium"
+    tag: null
   },
+  
   {
     id: 14,
     name: "Pastel Butterfly Sling",
@@ -287,13 +288,13 @@ export const products = [
     category: "tote",
     image: tote3,
     modelImage: tote3_model,
-    tag: "Seasonal"
+    tag: "New Arrival"
   },
 
   // ===== POTLIS =====
   {
     id: 22,
-    name: "Royal Maroon Potli",
+    name: "Sunburst Candy Potli",
     price: "₹299",
     originalPrice: "₹459",
     category: "potli",
@@ -312,7 +313,7 @@ export const products = [
   },
   {
     id: 24,
-    name: "Mauve Magic Potli",
+    name: "Ruby Loom Potli",
     price: "₹259",
     originalPrice: "₹459",
     category: "potli",
@@ -322,7 +323,7 @@ export const products = [
   },
   {
     id: 25,
-    name: "Terracotta Dream Potli",
+    name: "Rose Loom Potli",
     price: "₹259",
     originalPrice: "₹459",
     category: "potli",
@@ -332,7 +333,7 @@ export const products = [
   },
   {
     id: 26,
-    name: "Sage Green Potli",
+    name: "Ocean Loom Potli",
     price: "₹259",
     originalPrice: "₹459",
     category: "potli",
@@ -344,8 +345,8 @@ export const products = [
   // ===== BASKETS =====
   {
     id: 27,
-    name: "Natural Woven Basket",
-    price: "₹149",
+    name: "Rosy Grey Basket",
+    price: "₹139",
     originalPrice: "₹199",
     category: "basket",
     image: basket1,
