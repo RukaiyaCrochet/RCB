@@ -587,7 +587,7 @@ const App = () => {
         
                   {/* Image Container */}
                   <div 
-                    className="aspect-[3/4] sm:aspect-[4/5] bg-stone-100 rounded-2xl sm:rounded-3xl overflow-hidden mb-4 sm:mb-5 relative shadow-md hover:shadow-xl transition-all duration-500 flex-shrink-0 group touch-pan-y"
+                    className="aspect-[3/4] sm:aspect-[4/5] bg-stone-100 rounded-2xl sm:rounded-3xl overflow-hidden mb-4 sm:mb-5 relative shadow-md hover:shadow-xl transition-all duration-300 flex-shrink-0 group touch-pan-y"
                     onTouchStart={(e) => handleProductTouchStart(e, product.id)}
                     onTouchEnd={(e) => handleProductTouchEnd(e, product.id, images.length)}
                   >
@@ -606,7 +606,7 @@ const App = () => {
                       loading="lazy"
                       decoding="async"
                       onLoad={() => handleProductImageLoad(product.id)}
-                      className={`w-full h-full object-contain object-cover transition-all duration-500 ease-in-out hover:scale-105`}
+                      className={`w-full h-full object-contain object-cover transition-all duration-300 ease-in-out hover:scale-105`}
                       style={{
                         opacity: productImageOpacity[product.id] !== undefined ? productImageOpacity[product.id] : 1,
                         filter: productImageOpacity[product.id] < 0.5 ? 'blur(8px)' : 'blur(0px)',
