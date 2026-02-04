@@ -93,10 +93,10 @@ const App = () => {
 
     // Insert schemas into DOM
     const schemas = [organizationSchema, websiteSchema, productSchema];
-    schemas.forEach((schema, index) => {
+    schemas.forEach((_, index) => {
       const script = document.createElement('script');
       script.type = 'application/ld+json';
-      script.text = JSON.stringify(schema);
+      script.textContent = JSON.stringify(schemas[index]);
       script.id = `schema-${index}`;
       
       // Remove existing schema if present
@@ -108,8 +108,8 @@ const App = () => {
 
     return () => {
       // Cleanup schemas on unmount
-      schemas.forEach((_, index) => {
-        const script = document.getElementById(`schema-${index}`);
+      schemas.forEach((_, schemaIndex) => {
+        const script = document.getElementById(`schema-${schemaIndex}`);
         if (script) script.remove();
       });
     };
@@ -172,7 +172,6 @@ const App = () => {
   const [activeTab, setActiveTab] = useState('all');
   const [scrolled, setScrolled] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(false);
   const [productImageIndex, setProductImageIndex] = useState({});
   const [productPendingIndex, setProductPendingIndex] = useState({});
   const [productImageLoading, setProductImageLoading] = useState({});
@@ -204,15 +203,6 @@ const App = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (!isAnimating) {
-        handleNextSlide();
-      }
-    }, 6000); 
-    return () => clearInterval(interval);
-  }, [currentSlide, isAnimating]);
-
   const handleNextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
   };
@@ -220,6 +210,13 @@ const App = () => {
   const handlePrevSlide = () => {
     setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
   };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      handleNextSlide();
+    }, 6000); 
+    return () => clearInterval(interval);
+  }, []);
 
   const handleTouchStart = (e) => {
     touchStartX.current = e.targetTouches[0].clientX;

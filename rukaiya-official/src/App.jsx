@@ -101,7 +101,6 @@ const App = () => {
   const [activeTab, setActiveTab] = useState('all');
   const [scrolled, setScrolled] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(false);
   const [swipeOffset, setSwipeOffset] = useState(0);
   const [isSwiping, setIsSwiping] = useState(false);
   const [productImageIndex, setProductImageIndex] = useState({});
@@ -138,15 +137,6 @@ const App = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (!isAnimating) {
-        handleNextSlide();
-      }
-    }, 6000); 
-    return () => clearInterval(interval);
-  }, [currentSlide, isAnimating]);
-
   const handleNextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
   };
@@ -154,6 +144,13 @@ const App = () => {
   const handlePrevSlide = () => {
     setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
   };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      handleNextSlide();
+    }, 6000); 
+    return () => clearInterval(interval);
+  }, []);
 
   const handleTouchStart = (e) => {
     touchStartX.current = e.targetTouches[0].clientX;
@@ -410,7 +407,7 @@ const App = () => {
                     willChange: isSwiping ? 'transform' : 'auto'
                   }}
                 >
-                  {heroSlides.map((slide, index) => (
+                  {heroSlides.map((slide) => (
                     <div 
                       key={slide.id}
                       className="flex-shrink-0 w-full h-full relative"
