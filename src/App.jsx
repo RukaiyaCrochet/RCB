@@ -419,8 +419,8 @@ const App = () => {
                 <Star size={12} fill="currentColor" /> Handcrafted with Love
               </div>
               <h1 className="text-4xl sm:text-5xl lg:text-7xl font-serif leading-tight text-stone-900 drop-shadow-sm">
-                Handmade Crochet Bags<br />
-                <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-rose-600">Crafted in India</span>
+                Har Stitch Mein<br />
+                <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-rose-600">Mohabbat</span>
               </h1>
               <p className="text-sm sm:text-lg text-stone-500 leading-relaxed max-w-md mx-auto lg:mx-0">
                 Discover beautiful handcrafted crochet handbags, sling bags, tote bags, and potlis. 
