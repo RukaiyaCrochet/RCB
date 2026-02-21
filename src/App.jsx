@@ -31,8 +31,8 @@ const App = () => {
       "@context": "https://schema.org",
       "@type": "Organization",
       "name": "Rukaiya Crochet Bags",
-      "url": "https://rukaiyacrochetbags.vercel.app",
-      "logo": "https://rukaiyacrochetbags.vercel.app/logo.png",
+      "url": "https://rukaiyacrochetbags.website",
+      "logo": "https://rukaiyacrochetbags.website/logo.png",
       "description": "Handmade crochet bags, handbags, slings, totes, and potlis crafted with love in India",
       "founder": {
         "@type": "Person",
@@ -54,10 +54,10 @@ const App = () => {
       "@context": "https://schema.org",
       "@type": "WebSite",
       "name": "Rukaiya Crochet Bags",
-      "url": "https://rukaiyacrochetbags.vercel.app",
+      "url": "https://rukaiyacrochetbags.website",
       "potentialAction": {
         "@type": "SearchAction",
-        "target": "https://rukaiyacrochetbags.vercel.app/#collection?q={search_term_string}",
+        "target": "https://rukaiyacrochetbags.website/#collection?q={search_term_string}",
         "query-input": "required name=search_term_string"
       }
     };

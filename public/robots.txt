@@ -1,5 +1,5 @@
 # Robots.txt for Rukaiya Crochet Bags
-# https://rukaiyacrochetbags.vercel.app
+# https://rukaiyacrochetbags.website
 
 User-agent: *
 Allow: /
@@ -10,7 +10,7 @@ Allow: /src/
 # Disallow: /admin/
 
 # Sitemap location
-Sitemap: https://rukaiyacrochetbags.vercel.app/sitemap.xml
+Sitemap: https://rukaiyacrochetbags.website/sitemap.xml
 
 # Crawl-delay for considerate crawling
 Crawl-delay: 1
