@@ -26,13 +26,20 @@ const App = () => {
 
   // Add JSON-LD Structured Data for SEO
   useEffect(() => {
+    const siteUrl = "https://www.rukaiyacrochetbags.website";
+    const getAbsoluteUrl = (assetPath) => {
+      if (!assetPath) return undefined;
+      if (assetPath.startsWith('http://') || assetPath.startsWith('https://')) return assetPath;
+      return `${siteUrl}${assetPath}`;
+    };
+
     // Organization Schema
     const organizationSchema = {
       "@context": "https://schema.org",
       "@type": "Organization",
       "name": "Rukaiya Crochet Bags",
-      "url": "https://rukaiyacrochetbags.website",
-      "logo": "https://rukaiyacrochetbags.website/logo.png",
+      "url": siteUrl,
+      "logo": `${siteUrl}/logo.png`,
       "description": "Handmade crochet bags, handbags, slings, totes, and potlis crafted with love in India",
       "founder": {
         "@type": "Person",
@@ -54,10 +61,10 @@ const App = () => {
       "@context": "https://schema.org",
       "@type": "WebSite",
       "name": "Rukaiya Crochet Bags",
-      "url": "https://rukaiyacrochetbags.website",
+      "url": siteUrl,
       "potentialAction": {
         "@type": "SearchAction",
-        "target": "https://rukaiyacrochetbags.website/#collection?q={search_term_string}",
+        "target": `${siteUrl}/#collection?q={search_term_string}`,
         "query-input": "required name=search_term_string"
       }
     };
@@ -70,24 +77,40 @@ const App = () => {
       "description": "Browse our collection of handcrafted crochet bags including handbags, slings, totes, and potlis",
       "numberOfItems": products.length,
       "itemListElement": products.slice(0, 10).map((product, index) => ({
-        "@type": "ListItem",
-        "position": index + 1,
-        "item": {
-          "@type": "Product",
-          "name": product.name,
-          "description": `Handmade crochet ${product.category} - ${product.name}`,
-          "category": product.category,
-          "offers": {
-            "@type": "Offer",
-            "price": product.price.replace(/[^0-9]/g, ''),
-            "priceCurrency": "INR",
-            "availability": "https://schema.org/InStock",
-            "seller": {
-              "@type": "Organization",
-              "name": "Rukaiya Crochet Bags"
+        ...(() => {
+          const selectedImage = product.image || (product.images && product.images[0]) || product.modelImage;
+          const image = getAbsoluteUrl(selectedImage);
+          const numericPrice = product.price ? product.price.replace(/[^0-9.]/g, '') : undefined;
+          return {
+            "@type": "ListItem",
+            "position": index + 1,
+            "item": {
+              "@type": "Product",
+              "name": product.name,
+              "description": `Handmade crochet ${product.category} - ${product.name}`,
+              "category": product.category,
+              ...(image ? { "image": [image] } : {}),
+              "url": `${siteUrl}/#collection`,
+              "sku": `RCB-${product.id}`,
+              "brand": {
+                "@type": "Brand",
+                "name": "Rukaiya Crochet Bags"
+              },
+              "offers": {
+                "@type": "Offer",
+                ...(numericPrice ? { "price": numericPrice } : {}),
+                "priceCurrency": "INR",
+                "availability": "https://schema.org/InStock",
+                "itemCondition": "https://schema.org/NewCondition",
+                "url": `${siteUrl}/#collection`,
+                "seller": {
+                  "@type": "Organization",
+                  "name": "Rukaiya Crochet Bags"
+                }
+              }
             }
-          }
-        }
+          };
+        })()
       }))
     };
 
