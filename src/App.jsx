@@ -352,7 +352,7 @@ const App = () => {
             <img
               src={logo}
               alt="Rukaiya logo"
-              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full shadow-lg group-hover:scale-110 transition-transform duration-300"
+              className="block w-9 h-9 sm:w-10 sm:h-10 rounded-full shadow-lg group-hover:scale-110 transition-transform duration-300"
             />
             <span className="text-base sm:text-xl md:text-2xl font-serif font-medium tracking-wide text-stone-800">
               Rukaiya Crochet Bags<span className="text-rose-400 animate-pulse">.</span>
