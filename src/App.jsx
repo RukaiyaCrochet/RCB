@@ -348,13 +348,13 @@ const App = () => {
       >
         <div className="container mx-auto px-6 flex justify-between items-center">
           {/* Logo */}
-          <div className="flex items-center gap-2 group cursor-default">
+          <div className="flex items-center gap-2 sm:gap-3 group cursor-default min-w-0">
             <img
               src={logo}
               alt="Rukaiya logo"
-              className="block w-9 h-9 sm:w-10 sm:h-10 rounded-full shadow-lg group-hover:scale-110 transition-transform duration-300"
+              className="block shrink-0 w-9 h-9 sm:w-10 sm:h-10 rounded-full shadow-lg group-hover:scale-110 transition-transform duration-300"
             />
-            <span className="text-base sm:text-xl md:text-2xl font-serif font-medium tracking-wide text-stone-800">
+            <span className="text-base sm:text-xl md:text-2xl font-serif font-medium tracking-wide leading-none text-stone-800 truncate">
               Rukaiya Crochet Bags<span className="text-rose-400 animate-pulse">.</span>
             </span>
           </div>
