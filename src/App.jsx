@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { ShoppingBag, Instagram, Mail, Menu, X, Heart, Star, ArrowRight, CheckCircle, ChevronLeft, ChevronRight, ExternalLink, Truck, ShieldCheck, FileText, ArrowUp, Quote, Camera, MapPin, Phone, Palette, Leaf, Package } from 'lucide-react';
 import { heroSlides } from './data/heroSlides.js';
 import { products } from './data/products.js';
+import logo from './assets/logo.svg';
 
 // Custom WhatsApp Icon Component
 const WhatsAppIcon = ({ size = 24, className = "" }) => (
@@ -348,9 +349,11 @@ const App = () => {
         <div className="container mx-auto px-6 flex justify-between items-center">
           {/* Logo */}
           <div className="flex items-center gap-2 group cursor-default">
-            <div className="w-9 h-9 sm:w-10 sm:h-10 bg-gradient-to-tr from-rose-300 to-rose-400 rounded-full flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
-              <span className="font-serif text-lg sm:text-xl italic font-bold">R</span>
-            </div>
+            <img
+              src={logo}
+              alt="Rukaiya logo"
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full shadow-lg group-hover:scale-110 transition-transform duration-300"
+            />
             <span className="text-base sm:text-xl md:text-2xl font-serif font-medium tracking-wide text-stone-800">
               Rukaiya Crochet Bags<span className="text-rose-400 animate-pulse">.</span>
             </span>
