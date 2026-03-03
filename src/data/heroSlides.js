@@ -8,6 +8,7 @@ export const heroSlides = [
     // title: "Elegant Handbags",
     // subtitle: "100% Premium Cotton",
     image: hero1,
+    alt: "Handcrafted crochet handbag collection by Rukaiya Crochet Bags",
     // accent: "text-rose-500",
     // bg: "bg-rose-100"
   },
@@ -16,6 +17,7 @@ export const heroSlides = [
     // title: "Totes & Slings",
     // subtitle: "Everyday Essentials",
     image: hero2,
+    alt: "Elegant handmade crochet potli collection",
     // accent: "text-teal-600",
     // bg: "bg-teal-100"
   },
@@ -24,6 +26,7 @@ export const heroSlides = [
     // title: "Cute potili",
     // subtitle: "Perfect for Parties",
     image: hero3,
+    alt: "Crochet tote and sling bags in pastel colors for everyday use",
     // accent: "text-amber-500",
     // bg: "bg-amber-100"
   }

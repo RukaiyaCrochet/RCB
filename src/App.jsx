@@ -319,6 +319,28 @@ const App = () => {
       ? products.filter(p => p.tag === 'New Arrival')
       : products.filter(p => p.category === activeTab);
 
+  const getProductImageAltText = (product, imageIndex, totalImages, imageSrc) => {
+    const categoryLabel = product.category === 'potli' ? 'potli bag' : `${product.category} bag`;
+    const normalizedSrc = typeof imageSrc === 'string' ? imageSrc.toLowerCase() : '';
+    const isModelByFilename = normalizedSrc.includes('model');
+    const isModelByExactMatch = Boolean(product.modelImage && imageSrc && product.modelImage === imageSrc);
+    const isLikelyModelImage = isModelByExactMatch || isModelByFilename;
+3
+    if (totalImages === 1) {
+      return `${product.name} handmade crochet ${categoryLabel} by Rukaiya Crochet Bags`;
+    }
+
+    if (isLikelyModelImage) {
+      return `${product.name} handmade crochet ${categoryLabel} shown on model`;
+    }
+
+    if (imageIndex === 0) {
+      return `${product.name} handmade crochet ${categoryLabel} front product view`;
+    }
+
+    return `${product.name} handmade crochet ${categoryLabel} image ${imageIndex + 1} of ${totalImages}`;
+  };
+
   const categories = [
     { id: 'all', label: 'All Bags' },
     { id: 'new arrival', label: 'New Arrivals' },
@@ -351,7 +373,7 @@ const App = () => {
           <div className="flex items-center gap-2 sm:gap-3 group cursor-default min-w-0">
             <img
               src={logo}
-              alt="Rukaiya logo"
+              alt="Rukaiya Crochet Bags logo"
               className="block shrink-0 w-9 h-9 sm:w-10 sm:h-10 rounded-full shadow-lg group-hover:scale-110 transition-transform duration-300"
             />
             <span className="text-base sm:text-xl md:text-2xl font-serif font-medium tracking-wide leading-none text-stone-800 truncate">
@@ -488,7 +510,7 @@ const App = () => {
                   >
                     <img 
                       src={slide.image} 
-                      alt={`Handmade crochet bags collection - Slide ${slide.id} | Beautiful handcrafted accessories`}
+                      alt={slide.alt || `Handmade crochet bags collection slide ${slide.id}`}
                       className="w-full h-full object-cover object-center"
                       loading={index === currentSlide ? "eager" : "lazy"}
                       fetchPriority={index === currentSlide ? "high" : "low"}
@@ -628,7 +650,7 @@ const App = () => {
                     <img 
               
                       src={currentImg} 
-                      alt={`${product.name} - Handmade crochet ${product.category} bag in India | Buy online`}
+                      alt={getProductImageAltText(product, displayIndex, images.length, currentImg)}
                       loading="lazy"
                       decoding="async"
                       onLoad={() => handleProductImageLoad(product.id)}
