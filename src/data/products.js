@@ -46,6 +46,9 @@ import tote2 from '../assets/product/tote/tote2.webp'
 import tote2_model from '../assets/product/tote/tote2_model1.webp'
 import tote3 from '../assets/product/tote/tote3.webp'
 import tote3_model from '../assets/product/tote/tote3_model1.webp'
+import tote4 from '../assets/product/tote/tote4.webp'
+import tote4_model1 from '../assets/product/tote/tote4_model1.webp'
+import tote4_model2 from '../assets/product/tote/tote4_model2.webp'
 
 import potli1 from '../assets/product/potli/potli1.webp'
 import potli1_model from '../assets/product/potli/potli1_model1.webp'
@@ -282,12 +285,21 @@ export const products = [
   },
   {
     id: 21,
-    name: "Summer Horizon Tote",
+    name: "Summer Horizo Tote",
     price: "₹1,199",
     originalPrice: "₹1,499",
     category: "tote",
     image: tote3,
     modelImage: tote3_model,
+    tag: "New Arrival"
+  },
+  {
+    id: 28,
+    name: "Snowberry Tote",
+    price: "₹1099",
+    originalPrice: "₹1249",
+    category: "tote",
+    images: [tote4, tote4_model1, tote4_model2],
     tag: "New Arrival"
   },
 
@@ -305,8 +317,8 @@ export const products = [
   {
     id: 23,
     name: "Royal Maroon Potli",
-    price: "₹449",
-    originalPrice: "₹659",
+    price: "₹599",
+    originalPrice: "₹699",
     category: "potli",
     images: [potli5_1, potli5_2, potli5_model1, potli5_model2],
     tag: "New Arrival"
