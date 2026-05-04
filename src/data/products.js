@@ -39,6 +39,9 @@ import sling7_1 from '../assets/product/sling/sling7.1.webp'
 import sling7_2 from '../assets/product/sling/sling7.2.webp'
 import sling7_3 from '../assets/product/sling/sling7.3.webp'
 import sling7_model from '../assets/product/sling/sling7_model1.webp'
+import sling8 from '../assets/product/sling/sling8.webp'
+import sling8_model1 from '../assets/product/sling/sling8_model1.webp'
+import sling8_model2 from '../assets/product/sling/sling8_model2.webp'
 
 import tote1 from '../assets/product/tote/tote1.webp'
 import tote1_model from '../assets/product/tote/tote1_model1.webp'
@@ -260,6 +263,15 @@ export const products = [
     category: "sling",
     images: [sling7_1, sling7_2, sling7_3, sling7_model],
     tag: "Limited Edition"
+  },
+  {
+    id: 29,
+    name: "Mystic Eye Bag",
+    price: "₹1199",
+    originalPrice: "₹1499",
+    category: "sling",
+    images: [sling8, sling8_model1, sling8_model2],
+    tag: "New Arrival"
   },
 
   // ===== TOTE BAGS =====
