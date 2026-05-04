@@ -266,7 +266,7 @@ export const products = [
   },
   {
     id: 29,
-    name: "Mystic Eye Bag",
+    name: "Evil Eye Bag",
     price: "₹1199",
     originalPrice: "₹1499",
     category: "sling",
