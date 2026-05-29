@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ShoppingBag, Instagram, Mail, Menu, X, Heart, Star, ArrowRight, CheckCircle, ChevronLeft, ChevronRight, ExternalLink, Truck, ShieldCheck, FileText, ArrowUp, Quote, Share2, Camera, MapPin, Phone, Palette, Leaf, Package, Share2Icon } from 'lucide-react';
+import { ShoppingBag, Instagram, Mail, Menu, X, Heart, Star, ArrowRight, CheckCircle, ChevronLeft, ChevronRight, ExternalLink, Truck, ShieldCheck, FileText, ArrowUp, Quote, Camera, MapPin, Phone, Palette, Leaf, Package, Share2 } from 'lucide-react';
 import { heroSlides } from './data/heroSlides.js';
 import { products } from './data/products.js';
 import logo from './assets/logo.svg';
-import { CiShare2 } from 'react-icons/ci';
 
 // Custom WhatsApp Icon Component
 const WhatsAppIcon = ({ size = 24, className = "" }) => (
@@ -308,23 +307,24 @@ const App = () => {
     }, 100);
   };
 
-  const handleShareProduct = async (product) => {
-    const productUrl = `${window.location.origin}/#collection?product=${encodeURIComponent(product.id)}`;
+  const handleShareProduct = async (product, imageUrl) => {
+    const pageUrl = `${window.location.origin}/#collection`;
+    const imageLink = imageUrl ? `${window.location.origin}${imageUrl}` : pageUrl;
     const shareText = `${product.name} - ${product.price}. Handmade crochet bag by Rukaiya Crochet Bags.`;
-    const sharePayload = `${shareText} ${productUrl}`;
+    const sharePayload = `${shareText}\n${imageLink}`;
 
     try {
       if (navigator.share) {
         await navigator.share({
           title: product.name,
           text: shareText,
-          url: productUrl,
+          url: imageLink,
         });
       } else if (navigator.clipboard) {
         await navigator.clipboard.writeText(sharePayload);
         alert('Product link copied to clipboard. Share it with your friends!');
       } else {
-        window.prompt('Copy this product link:', productUrl);
+        window.prompt('Copy this product link:', sharePayload);
       }
     } catch (error) {
       console.error('Share failed:', error);
@@ -756,11 +756,11 @@ const App = () => {
 
                     <button
                       type="button"
-                      onClick={() => handleShareProduct(product)}
+                      onClick={() => handleShareProduct(product, currentImg)}
                       title="Share product"
-                      className="absolute bottom-3 left-3 z-20 inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/90 text-stone-700 shadow-sm border border-stone-200 hover:bg-white transition-colors"
+                      className="absolute bottom-3 left-3 z-20 inline-flex items-center justify-center w-9 h-9 rounded-full bg-white/90 text-stone-700 shadow-sm border border-stone-200 hover:bg-white transition-colors"
                     >
-                      <Share2 size={16} />
+                      <Share2 size={14} />
                     </button>
                   </div>
 
