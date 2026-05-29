@@ -69,6 +69,15 @@ import potli5_model2 from '../assets/product/potli/potli5_model2.webp'
 import basket1 from '../assets/product/basket/basket1.webp'
 import basket1_model from '../assets/product/basket/basket1_model1.webp'
 
+import bouquetLily1 from '../assets/product/bouquet/bq_lily1.webp'
+import bouquetLily2 from '../assets/product/bouquet/bq_lily2.webp'
+import bouquetLily3 from '../assets/product/bouquet/bq_lily3.webp'
+import bouquetRedRose1 from '../assets/product/bouquet/bq_red_rose1.webp'
+import bouquetRedRose2 from '../assets/product/bouquet/bq_red_rose2.webp'
+import bouquetRedRose3 from '../assets/product/bouquet/bq_red_rose3.webp'
+import bouquetRedRose4 from '../assets/product/bouquet/bq_red_rose4.webp'
+import bouquetRedRoseModel1 from '../assets/product/bouquet/bq_red_rose_model1.webp'
+
 /**
  * Products data for Rukaiya Crochet Bags
  * Each product object contains:
@@ -76,7 +85,7 @@ import basket1_model from '../assets/product/basket/basket1_model1.webp'
  * - name: Product name
  * - price: Current price in INR
  * - originalPrice: Original price for discount display
- * - category: Product category (handbag, sling, tote, potli)
+ * - category: Product category (handbag, sling, tote, potli, bouquet)
  * - image: Main product image
  * - modelImage: Image with model
  * - tag: Special tag like "Best Seller", "New Arrival", etc. (can be null)
@@ -375,6 +384,32 @@ export const products = [
     category: "basket",
     image: basket1,
     modelImage: basket1_model,
+    tag: "New Arrival"
+  },
+
+  // ===== BOUQUETS =====
+  {
+    id: 30,
+    name: "Red Rose Bouquet",
+    price: "₹1,999",
+    originalPrice: "₹2,299",
+    category: "bouquet",
+    images: [
+      bouquetRedRose1,
+      bouquetRedRose2,
+      bouquetRedRose3,
+      bouquetRedRose4,
+      bouquetRedRoseModel1
+    ],
+    tag: "Premium"
+  },
+  {
+    id: 31,
+    name: "Lily Bouquet",
+    price: "₹1999",
+    originalPrice: "₹2,499",
+    category: "bouquet",
+    images: [bouquetLily1, bouquetLily2, bouquetLily3],
     tag: "New Arrival"
   }
 ]

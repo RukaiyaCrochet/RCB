@@ -41,7 +41,7 @@ const App = () => {
       "name": "Rukaiya Crochet Bags",
       "url": siteUrl,
       "logo": `${siteUrl}/logo.png`,
-      "description": "Handmade crochet bags, handbags, slings, totes, and potlis crafted with love in India",
+      "description": "Handmade crochet bags, handbags, slings, totes, potlis, and bouquets crafted with love in India",
       "founder": {
         "@type": "Person",
         "name": "Rukaiya"
@@ -75,7 +75,7 @@ const App = () => {
       "@context": "https://schema.org",
       "@type": "ItemList",
       "name": "Handmade Crochet Bags Collection",
-      "description": "Browse our collection of handcrafted crochet bags including handbags, slings, totes, and potlis",
+      "description": "Browse our collection of handcrafted crochet bags including handbags, slings, totes, potlis, and bouquets",
       "numberOfItems": products.length,
       "itemListElement": products.slice(0, 10).map((product, index) => ({
         ...(() => {
@@ -319,8 +319,12 @@ const App = () => {
       ? products.filter(p => p.tag === 'New Arrival')
       : products.filter(p => p.category === activeTab);
 
-  const getProductImageAltText = (product, imageIndex, totalImages, imageSrc) => {
-    const categoryLabel = product.category === 'potli' ? 'potli bag' : `${product.category} bag`;
+    const getProductImageAltText = (product, imageIndex, totalImages, imageSrc) => {
+    const categoryLabelMap = {
+      potli: 'potli bag',
+      bouquet: 'bouquet'
+    };
+    const categoryLabel = categoryLabelMap[product.category] ?? `${product.category} bag`;
     const normalizedSrc = typeof imageSrc === 'string' ? imageSrc.toLowerCase() : '';
     const isModelByFilename = normalizedSrc.includes('model');
     const isModelByExactMatch = Boolean(product.modelImage && imageSrc && product.modelImage === imageSrc);
@@ -347,7 +351,8 @@ const App = () => {
     { id: 'handbag', label: 'Handbags' },
     { id: 'sling', label: 'Slings' },
     { id: 'tote', label: 'Totes' },
-    { id: 'potli', label: 'Potlis' }
+    { id: 'potli', label: 'Potlis' },
+    { id: 'bouquet', label: 'Bouquets' }
   ];
 
   return (
@@ -468,7 +473,7 @@ const App = () => {
                 <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-rose-600">Mohabbat</span>
               </h1>
               <p className="text-sm sm:text-lg text-stone-500 leading-relaxed max-w-md mx-auto lg:mx-0">
-                Discover beautiful handcrafted crochet handbags, sling bags, tote bags, and potlis. 
+                Discover beautiful handcrafted crochet handbags, sling bags, tote bags, potlis, and bouquets. 
                 100% handmade with premium cotton yarn. Custom colors available.
               </p>
               
