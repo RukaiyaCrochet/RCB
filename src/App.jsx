@@ -309,22 +309,22 @@ const App = () => {
   };
 
   const handleShareProduct = async (product) => {
-    const pageUrl = `${window.location.origin}/#collection`;
+    const productUrl = `${window.location.origin}/#collection?product=${encodeURIComponent(product.id)}`;
     const shareText = `${product.name} - ${product.price}. Handmade crochet bag by Rukaiya Crochet Bags.`;
-    const sharePayload = `${shareText} ${pageUrl}`;
+    const sharePayload = `${shareText} ${productUrl}`;
 
     try {
       if (navigator.share) {
         await navigator.share({
           title: product.name,
           text: shareText,
-          url: pageUrl,
+          url: productUrl,
         });
       } else if (navigator.clipboard) {
         await navigator.clipboard.writeText(sharePayload);
         alert('Product link copied to clipboard. Share it with your friends!');
       } else {
-        window.prompt('Copy this product link:', pageUrl);
+        window.prompt('Copy this product link:', productUrl);
       }
     } catch (error) {
       console.error('Share failed:', error);
