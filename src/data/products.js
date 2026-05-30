@@ -141,7 +141,7 @@ export const products = [
     category: "handbag",
     image: handbag5,
     modelImage: handbag5_model,
-    tag: "Handpicked"
+    tag: "Popular"
   },
   {
     id: 6,
@@ -233,7 +233,8 @@ export const products = [
     category: "sling",
     image: sling3,
     modelImage: sling3_model,
-    tag: "Popular"
+    tag: "New Arrival",
+    newArrivalPriority: 4
   },
   {
     id: 15,
@@ -304,7 +305,8 @@ export const products = [
     category: "tote",
     image: tote2,
     modelImage: tote2_model,
-    tag: null
+    tag: "New Arrival",
+    newArrivalPriority: 7
   },
   {
     id: 21,
@@ -314,7 +316,8 @@ export const products = [
     category: "tote",
     image: tote3,
     modelImage: tote3_model,
-    tag: "New Arrival"
+    tag: "New Arrival",
+    newArrivalPriority: 6
   },
   {
     id: 28,
@@ -323,7 +326,7 @@ export const products = [
     originalPrice: "₹1249",
     category: "tote",
     images: [tote4, tote4_model1, tote4_model2],
-    tag: "New Arrival"
+    tag: "Popular",
   },
 
   // ===== POTLIS =====

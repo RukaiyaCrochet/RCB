@@ -317,7 +317,7 @@ const App = () => {
   const handleShareProduct = async (product, imageUrl) => {
     const pageUrl = `${window.location.origin}/#collection`;
     const imageLink = imageUrl ? `${window.location.origin}${imageUrl}` : pageUrl;
-    const shareText = `${product.name} - ${product.price}. Handmade crochet bag by Rukaiya Crochet Bags.`;
+    const shareText = `${product.name} - ${product.price}. Handmade crochet by Rukaiya Crochet Bags.`;
     const sharePayload = `${shareText}\n${imageLink}`;
 
     try {
