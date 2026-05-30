@@ -23,6 +23,13 @@ const App = () => {
   const WHATSAPP_NUMBER = "919574574251"; 
   const INSTAGRAM_URL = "https://www.instagram.com/rukaiya_crochet_bags/";
 
+  const parseInrPrice = (value) => {
+    if (!value) return null;
+    const match = String(value).match(/₹\s*([0-9,]+(?:\.[0-9]+)?)/);
+    if (!match) return null;
+    return Number(match[1].replace(/,/g, ''));
+  };
+
   // --- DATA ---
 
   // Add JSON-LD Structured Data for SEO
@@ -81,7 +88,7 @@ const App = () => {
         ...(() => {
           const selectedImage = product.image || (product.images && product.images[0]) || product.modelImage;
           const image = getAbsoluteUrl(selectedImage);
-          const numericPrice = product.price ? product.price.replace(/[^0-9.]/g, '') : undefined;
+          const numericPrice = parseInrPrice(product.price);
           return {
             "@type": "ListItem",
             "position": index + 1,
@@ -664,6 +671,9 @@ const App = () => {
                 const imgIndex = productImageIndex[product.id] || 0;
                 const displayIndex = productPendingIndex[product.id] !== undefined ? productPendingIndex[product.id] : imgIndex;
                 const currentImg = images[displayIndex];
+                const currentPrice = parseInrPrice(product.price);
+                const originalPrice = parseInrPrice(product.originalPrice);
+                const savings = currentPrice && originalPrice ? originalPrice - currentPrice : null;
                 
                 return (
                 <div key={product.id} className="relative animate-fade-in flex flex-col h-full">
@@ -783,9 +793,11 @@ const App = () => {
                     <div className="flex items-center gap-2 mb-3">
                       <span className="text-xl font-bold text-stone-900">{product.price}</span>
                       <span className="text-sm text-stone-400 line-through decoration-1">{product.originalPrice}</span>
-                      <span className="ml-auto text-[10px] font-bold text-green-700 bg-green-50 border border-green-100 px-2 py-1 rounded-full">
-                        Save ₹{parseInt(product.originalPrice.replace(/[^0-9]/g, '')) - parseInt(product.price.replace(/[^0-9]/g, ''))}
-                      </span>
+                      {savings && savings > 0 && (
+                        <span className="ml-auto text-[10px] font-bold text-green-700 bg-green-50 border border-green-100 px-2 py-1 rounded-full">
+                          Save ₹{savings}
+                        </span>
+                      )}
                     </div>
                   </div>
                 </div>
