@@ -406,7 +406,7 @@ export const products = [
   {
     id: 31,
     name: "Lily Bouquet",
-    price: "₹1999",
+    price: "₹1999 (10 roses)",
     originalPrice: "₹2,499",
     category: "bouquet",
     images: [bouquetLily1, bouquetLily2, bouquetLily3],
