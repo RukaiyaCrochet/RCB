@@ -391,8 +391,8 @@ export const products = [
   {
     id: 30,
     name: "Red Rose Bouquet",
-    price: "₹1,999",
-    originalPrice: "₹2,299",
+    price: "₹2,499",
+    originalPrice: "₹2,999",
     category: "bouquet",
     images: [
       bouquetRedRose1,
