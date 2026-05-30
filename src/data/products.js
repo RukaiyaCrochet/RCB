@@ -89,6 +89,7 @@ import bouquetRedRoseModel1 from '../assets/product/bouquet/bq_red_rose_model1.w
  * - image: Main product image
  * - modelImage: Image with model
  * - tag: Special tag like "Best Seller", "New Arrival", etc. (can be null)
+ * - newArrivalPriority: Optional numeric rank for "New Arrival" sorting (lower shows first)
  */
 export const products = [
   // ===== HANDBAGS =====
@@ -280,7 +281,8 @@ export const products = [
     originalPrice: "₹1499",
     category: "sling",
     images: [sling8, sling8_model1, sling8_model2],
-    tag: "New Arrival"
+    tag: "New Arrival",   
+    newArrivalPriority: 3
   },
 
   // ===== TOTE BAGS =====
@@ -342,7 +344,8 @@ export const products = [
     originalPrice: "₹699",
     category: "potli",
     images: [potli5_1, potli5_2, potli5_model1, potli5_model2],
-    tag: "New Arrival"
+    tag: "New Arrival",
+    newArrivalPriority: 3
   },
   {
     id: 24,
@@ -384,7 +387,8 @@ export const products = [
     category: "basket",
     image: basket1,
     modelImage: basket1_model,
-    tag: "New Arrival"
+    tag: "New Arrival",
+    newArrivalPriority: 4
   },
 
   // ===== BOUQUETS =====
@@ -401,7 +405,8 @@ export const products = [
       bouquetRedRose4,
       bouquetRedRoseModel1
     ],
-    tag: "Premium"
+    tag: "New Arrival",
+    newArrivalPriority: 1
   },
   {
     id: 31,
@@ -410,6 +415,7 @@ export const products = [
     originalPrice: "₹2,499",
     category: "bouquet",
     images: [bouquetLily1, bouquetLily2, bouquetLily3],
-    tag: "New Arrival"
+    tag: "New Arrival",
+    newArrivalPriority: 2
   }
 ]

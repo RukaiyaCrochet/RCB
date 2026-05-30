@@ -340,7 +340,13 @@ const App = () => {
   const filteredProducts = activeTab === 'all' 
     ? products 
     : activeTab === 'new arrival'
-      ? products.filter(p => p.tag === 'New Arrival')
+      ? products
+          .filter(p => p.tag === 'New Arrival')
+          .slice()
+          .sort(
+            (a, b) => (a.newArrivalPriority ?? Number.POSITIVE_INFINITY)
+              - (b.newArrivalPriority ?? Number.POSITIVE_INFINITY)
+          )
       : products.filter(p => p.category === activeTab);
 
     const getProductImageAltText = (product, imageIndex, totalImages, imageSrc) => {
