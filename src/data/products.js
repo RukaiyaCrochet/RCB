@@ -72,12 +72,14 @@ import basket1_model from '../assets/product/basket/basket1_model1.webp'
 import bouquetLily1 from '../assets/product/bouquet/bq_lily1.webp'
 import bouquetLily2 from '../assets/product/bouquet/bq_lily2.webp'
 import bouquetLily3 from '../assets/product/bouquet/bq_lily3.webp'
+import bouquetSunflower1 from '../assets/product/bouquet/bq_sunflower1.webp'
+import bouquetSunflower2 from '../assets/product/bouquet/bq_sunflower2.webp'
+import bouquetSunflower3 from '../assets/product/bouquet/bq_sunflower3.webp'
 import bouquetRedRose1 from '../assets/product/bouquet/bq_red_rose1.webp'
 import bouquetRedRose2 from '../assets/product/bouquet/bq_red_rose2.webp'
 import bouquetRedRose3 from '../assets/product/bouquet/bq_red_rose3.webp'
 import bouquetRedRose4 from '../assets/product/bouquet/bq_red_rose4.webp'
 import bouquetRedRoseModel1 from '../assets/product/bouquet/bq_red_rose_model1.webp'
-
 /**
  * Products data for Rukaiya Crochet Bags
  * Each product object contains:
@@ -396,6 +398,16 @@ export const products = [
 
   // ===== BOUQUETS =====
   {
+    id: 32,
+    name: "Sunflower Bouquet",
+    price: "₹299 (2 sunflower)",
+    originalPrice: "₹499",
+    category: "bouquet",
+    images: [bouquetSunflower1, bouquetSunflower2, bouquetSunflower3],
+    tag: "New Arrival",
+    newArrivalPriority: 1
+  },
+  {
     id: 30,
     name: "Red Rose Bouquet",
     price: "₹2,499 (10 roses)",
@@ -409,7 +421,7 @@ export const products = [
       bouquetRedRoseModel1
     ],
     tag: "New Arrival",
-    newArrivalPriority: 1
+    newArrivalPriority: 2
   },
   {
     id: 31,
@@ -419,6 +431,6 @@ export const products = [
     category: "bouquet",
     images: [bouquetLily1, bouquetLily2, bouquetLily3],
     tag: "New Arrival",
-    newArrivalPriority: 2
+    newArrivalPriority: 3
   }
 ]

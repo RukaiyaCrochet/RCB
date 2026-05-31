@@ -352,8 +352,8 @@ const App = () => {
     try {
       if (navigator.share) {
         await navigator.share({
-          title: `${product.name} — ${product.price}`,
-          text: `${product.name} — ${product.price}${tagline ? ` — ${tagline}` : ''}\n\nHandmade crochet by Rukaiya Crochet Bags.`,
+          title: `${product.name} - ${product.price}`,
+          text: `${product.name} - ${product.price}${tagline ? ` - ${tagline}` : ''}\n\nHandmade crochet by Rukaiya Crochet Bags.`,
           // Use the image link as the shared URL so recipients can preview the product image
           url: imageLink || productUrl,
         });
@@ -472,6 +472,7 @@ const App = () => {
     { id: 'home', label: 'Home' },
     { id: 'collection', label: 'Collection' },
     { id: 'about', label: 'About' },
+    { id: 'faq', label: 'FAQ' },
     { id: 'reseller', label: 'Bulk Orders' }
   ];
 
@@ -984,7 +985,7 @@ const App = () => {
                         title="Share product"
                         className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-full bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-colors text-xs font-semibold"
                       >
-                        <Share2 size={14} /> Share
+                        <Share2 size={18} /> Share
                       </button>
                     </div>
                   </div>
@@ -997,7 +998,7 @@ const App = () => {
                   <ShoppingBag size={30} className="text-stone-300" />
                 </div>
                 <h3 className="text-xl font-bold text-stone-800 mb-2">Coming Soon!</h3>
-                <p className="text-stone-500">We are crafting new designs for this category.</p>
+                {/* <p className="text-stone-500">We are crafting new designs for this category.</p> */}
               </div>
             )}
           </div>
@@ -1085,7 +1086,7 @@ const App = () => {
                   href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hi Rukaiya, I want to request a custom crochet creation. I can share a photo/reference and details.")}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-6 py-2 bg-stone-900 text-white rounded-full text-sm font-medium shadow-2xl shadow-rose-200 transform transition duration-300 ease-out hover:scale-105 hover:-translate-y-1 hover:shadow-2xl hover:bg-stone-800 active:translate-y-0 focus:outline-none focus:ring-4 focus:ring-rose-100 animate-fade-in-up"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-6 py-3 text-white font-semibold shadow-lg shadow-green-200 hover:bg-[#20bd5a] transition-all"
                 >
                   Start Your Custom Order <ArrowRight size={18} />
                 </a>
@@ -1171,7 +1172,7 @@ const App = () => {
       
 
       {/* --- FAQ SECTION FOR SEO --- */}
-      <section className="py-16 sm:py-20 bg-white">
+      <section id="faq" className="py-16 sm:py-20 bg-white scroll-mt-24">
         <div className="container mx-auto px-6">
           <div className="max-w-3xl mx-auto">
             <div className="text-center mb-12">
