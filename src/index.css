@@ -32,12 +32,13 @@
     inset: -2px;
     border-radius: 9999px;
     padding: 2px;
-    background: linear-gradient(90deg, 
-      #f89f9f,
-      #e9eea1 , 
-      #90f4b5 , 
-      #a492ec , 
-      #d988f9
+    background: linear-gradient(90deg,
+      #f6a5c0,
+      #f6d58d,
+      #8fe3bf,
+      #8cccf6,
+      #b39cf7,
+      #f2a3de
     );
 
 

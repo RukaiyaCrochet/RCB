@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ShoppingBag, Instagram, Mail, Menu, X, Heart, Star, ArrowRight, CheckCircle, ChevronLeft, ChevronRight, ExternalLink, Truck, ShieldCheck, FileText, ArrowUp, Quote, Camera, MapPin, Phone, Palette, Leaf, Package, Share2 } from 'lucide-react';
+import { ShoppingBag, Instagram, Mail, Menu, X, Heart, Star, ArrowRight, CheckCircle, ChevronLeft, ChevronRight, ChevronDown, ExternalLink, Truck, ShieldCheck, FileText, ArrowUp, Quote, Camera, Edit3, MapPin, Phone, Palette, Leaf, Package, Share2 } from 'lucide-react';
 import { heroSlides } from './data/heroSlides.js';
 import { products } from './data/products.js';
 import logo from './assets/logo.svg';
@@ -200,7 +200,7 @@ const App = () => {
 
   // --- STATE MANAGEMENT ---
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState('all');
+  const [activeTab, setActiveTab] = useState('new arrival');
   const [scrolled, setScrolled] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [productImageIndex, setProductImageIndex] = useState({});
@@ -209,11 +209,17 @@ const App = () => {
   const [productImageOpacity, setProductImageOpacity] = useState({});
   const [activePolicy, setActivePolicy] = useState(null); 
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [activeTag, setActiveTag] = useState('all');
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+  const [isTagOpen, setIsTagOpen] = useState(false);
 
   // --- REFS FOR TOUCH/SWIPE ---
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
   const productTouchStartX = useRef({});
+  const categoryDropdownRef = useRef(null);
+  const tagDropdownRef = useRef(null);
 
   // --- LOGIC & EFFECTS ---
 
@@ -232,6 +238,19 @@ const App = () => {
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (categoryDropdownRef.current && !categoryDropdownRef.current.contains(event.target)) {
+        setIsCategoryOpen(false);
+      }
+      if (tagDropdownRef.current && !tagDropdownRef.current.contains(event.target)) {
+        setIsTagOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   const handleNextSlide = () => {
@@ -315,23 +334,35 @@ const App = () => {
   };
 
   const handleShareProduct = async (product, imageUrl) => {
-    const pageUrl = `${window.location.origin}/#collection`;
-    const imageLink = imageUrl ? `${window.location.origin}${imageUrl}` : pageUrl;
-    const shareText = `${product.name} - ${product.price}. Handmade crochet by Rukaiya Crochet Bags.`;
-    const sharePayload = `${shareText}\n${imageLink}`;
+    // Share the collection/page URL instead of a product-specific fragment
+    const productUrl = `${window.location.origin}${window.location.pathname}#collection`;
+    const imageLink = imageUrl ? `${window.location.origin}${imageUrl}` : productUrl;
+    const tagline = product.tag || product.category || '';
+
+    const shareLines = [
+      product.name,
+      `Price: ${product.price}`,
+      tagline ? `${tagline}` : null,
+      '',
+      'Handmade crochet by Rukaiya Crochet Bags.'
+    ].filter(Boolean).join('\n');
+
+    const sharePayload = `${shareLines}\n\n${productUrl}\n${imageLink}`;
 
     try {
       if (navigator.share) {
         await navigator.share({
-          title: product.name,
-          text: shareText,
-          url: imageLink,
+          title: `${product.name} — ${product.price}`,
+          text: `${product.name} — ${product.price}${tagline ? ` — ${tagline}` : ''}\n\nHandmade crochet by Rukaiya Crochet Bags.`,
+          // Use the image link as the shared URL so recipients can preview the product image
+          url: imageLink || productUrl,
         });
       } else if (navigator.clipboard) {
-        await navigator.clipboard.writeText(sharePayload);
-        alert('Product link copied to clipboard. Share it with your friends!');
+        // For quick sharing via clipboard, copy the image URL so it can be pasted directly
+        await navigator.clipboard.writeText(imageLink);
+        alert('Image URL copied to clipboard. Paste it to share the image.');
       } else {
-        window.prompt('Copy this product link:', sharePayload);
+        window.prompt('Copy image URL:', imageLink);
       }
     } catch (error) {
       console.error('Share failed:', error);
@@ -344,17 +375,34 @@ const App = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const filteredProducts = activeTab === 'all' 
-    ? products 
-    : activeTab === 'new arrival'
-      ? products
+  const normalizedSearch = searchQuery.trim().toLowerCase();
+  const filteredProducts = (() => {
+    let result = products;
+
+    if (activeTab !== 'all') {
+      if (activeTab === 'new arrival') {
+        result = result
           .filter(p => p.tag === 'New Arrival')
           .slice()
           .sort(
             (a, b) => (a.newArrivalPriority ?? Number.POSITIVE_INFINITY)
               - (b.newArrivalPriority ?? Number.POSITIVE_INFINITY)
-          )
-      : products.filter(p => p.category === activeTab);
+          );
+      } else {
+        result = result.filter(p => p.category === activeTab);
+      }
+    }
+
+    if (activeTag !== 'all') {
+      result = result.filter(p => p.tag === activeTag);
+    }
+
+    if (normalizedSearch) {
+      result = result.filter(p => p.name.toLowerCase().includes(normalizedSearch));
+    }
+
+    return result;
+  })();
 
     const getProductImageAltText = (product, imageIndex, totalImages, imageSrc) => {
     const categoryLabelMap = {
@@ -392,6 +440,41 @@ const App = () => {
     { id: 'bouquet', label: 'Bouquets' }
   ];
 
+  const tagOptions = ['all', ...new Set(products.map((product) => product.tag).filter(Boolean))];
+
+  const tagLabelMap = {
+    'new arrival': 'New Arrivals',
+    'new': 'New Arrivals',
+    'best seller': 'Best Seller',
+    'bestseller': 'Best Seller',
+    'popular': 'Popular',
+    'limited edition': 'Limited Edition',
+    'trending': 'Trending',
+    'premium': 'Premium'
+  };
+
+  const formatTagLabel = (tag) => {
+    if (!tag) return '';
+    if (tag === 'all') return 'All Tags';
+    const key = String(tag).trim().toLowerCase();
+    if (tagLabelMap[key]) return tagLabelMap[key];
+    return String(tag)
+      .trim()
+      .split(/\s+/)
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+      .join(' ');
+  };
+
+  const activeCategoryLabel = categories.find((category) => category.id === activeTab)?.label ?? 'Category';
+  const activeTagLabel = formatTagLabel(activeTag);
+
+  const navItems = [
+    { id: 'home', label: 'Home' },
+    { id: 'collection', label: 'Collection' },
+    { id: 'about', label: 'About' },
+    { id: 'reseller', label: 'Bulk Orders' }
+  ];
+
   return (
     <div className="min-h-screen bg-stone-50 font-sans text-stone-800 selection:bg-rose-200 scroll-smooth">
       
@@ -425,13 +508,13 @@ const App = () => {
 
           {/* Desktop Links */}
           <div className="hidden md:flex items-center gap-8 text-sm font-medium tracking-widest uppercase text-stone-500">
-            {['Home', 'Collection', 'About', 'Reseller'].map((item) => (
+            {navItems.map((item) => (
               <a 
-                key={item}
-                href={`#${item.toLowerCase()}`}
+                key={item.id}
+                href={`#${item.id}`}
                 className="hover:text-rose-500 relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-rose-400 after:transition-all after:duration-300 hover:after:w-full"
               >
-                {item}
+                {item.label}
               </a>
             ))}
           </div>
@@ -448,10 +531,10 @@ const App = () => {
               <Instagram size={20} />
             </a>
             <a 
-              href="#reseller" 
-              className="px-6 py-2 bg-stone-900 text-white rounded-full text-sm font-medium hover:bg-stone-800 transition-all shadow-lg shadow-rose-200 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0"
+              href="#customize" 
+              className="inline-flex items-center justify-center gap-2 px-6 py-2 bg-stone-900 text-white rounded-full text-sm font-medium shadow-2xl shadow-rose-200 transform transition duration-300 ease-out hover:scale-105 hover:-translate-y-1 hover:shadow-2xl hover:bg-stone-800 active:translate-y-0 focus:outline-none focus:ring-4 focus:ring-rose-100 animate-fade-in-up"
             >
-              Reseller Inquiry
+              Customize
             </a>
           </div>
 
@@ -472,14 +555,14 @@ const App = () => {
           }`}
         >
           <div className="flex flex-col gap-6 px-6">
-            {['Home', 'Collection', 'About', 'Reseller'].map((item) => (
+            {navItems.map((item) => (
               <a 
-                key={item}
-                href={`#${item.toLowerCase()}`}
+                key={item.id}
+                href={`#${item.id}`}
                 onClick={handleNavClick}
                 className="text-lg font-medium text-stone-600 hover:text-rose-500 flex items-center justify-between group"
               >
-                {item}
+                {item.label}
                 <ChevronRight size={16} className="opacity-0 group-hover:opacity-100 transition-opacity text-rose-400"/>
               </a>
             ))}
@@ -515,6 +598,9 @@ const App = () => {
               </p>
               
               {/* Call to Actions */}
+              {/* home page btn */}
+              
+
               <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 justify-center lg:justify-start">
                 <a 
                    href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hi Rukaiya, I loved your crochet collection and would like to know more!")}`}
@@ -525,13 +611,21 @@ const App = () => {
                   Start Your Order <WhatsAppIcon size={18} />
                 </a>
                 <a 
+                  href="#customize"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-stone-900 text-white rounded-full text-sm sm:text-base font-medium shadow-2xl shadow-rose-200 transform transition duration-300 ease-out hover:scale-105 hover:-translate-y-1 hover:shadow-2xl hover:bg-stone-800 active:translate-y-0 focus:outline-none focus:ring-4 focus:ring-rose-100 animate-fade-in-up"
+                >
+                  Customize Order<Edit3 size={18} />
+                </a>
+              
+                {/* <a 
                   href={INSTAGRAM_URL}
                   target="_blank" 
                   rel="noreferrer" 
                   className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-white text-stone-800 border border-stone-200 rounded-full font-medium text-sm sm:text-base hover:bg-stone-50 transition-colors flex items-center justify-center gap-2"
                 >
                   View Gallery <Instagram size={18} />
-                </a>
+                </a> */}
+           
               </div>
             </div>
             
@@ -560,8 +654,7 @@ const App = () => {
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 60vw, 40vw"
                     />
                   </div>
-                ))}
-
+                ))} 
                 {/* Arrows */}
                 <button 
                   onClick={handlePrevSlide}
@@ -644,14 +737,109 @@ const App = () => {
           <div className="text-center mb-10 sm:mb-16">
             <span className="text-rose-400 font-bold tracking-widest text-xs uppercase mb-2 sm:mb-3 block">Our Gallery</span>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-stone-900 mb-6 sm:mb-8">Curated with Passion</h2>
+
+            {/* Search + Filters (disabled on mobile, available on desktop only) */}
+            <div className="hidden sm:flex gap-3 sm:gap-4 sm:flex-row sm:items-center sm:justify-center mb-4 sm:mb-6">
+              <div className="w-full sm:w-64">
+                <input
+                  type="search"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search products"
+                  className="w-full px-4 py-2.5 rounded-full border border-stone-200 bg-white/95 text-sm text-stone-700 placeholder:text-stone-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-200"
+                  aria-label="Search products"
+                />
+              </div>
+              <div className="flex gap-2 sm:gap-3">
+                <div ref={categoryDropdownRef} className="relative w-full sm:w-auto">
+                  <button
+                    type="button"
+                    onClick={() => setIsCategoryOpen((prev) => !prev)}
+                    className="w-full sm:w-auto px-3 py-2.5 rounded-full border border-stone-200 bg-white/95 text-sm text-stone-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-200 inline-flex items-center justify-between gap-2"
+                    aria-label="Filter by category"
+                    aria-expanded={isCategoryOpen}
+                    aria-haspopup="listbox"
+                  >
+                    {activeCategoryLabel}
+                    <ChevronDown size={16} className={`transition-transform ${isCategoryOpen ? 'rotate-180' : ''}`} />
+                  </button>
+                  {isCategoryOpen && (
+                    <div
+                      role="listbox"
+                      className="absolute left-0 right-0 mt-2 z-40 rounded-xl border border-stone-200 bg-white shadow-lg p-1 max-h-64 overflow-auto"
+                    >
+                      {categories.map((category) => (
+                        <button
+                          key={category.id}
+                          type="button"
+                          role="option"
+                          aria-selected={activeTab === category.id}
+                          onClick={() => {
+                            setActiveTab(category.id);
+                            setIsCategoryOpen(false);
+                          }}
+                          className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
+                            activeTab === category.id
+                              ? 'bg-rose-50 text-rose-600'
+                              : 'text-stone-700 hover:bg-stone-50'
+                          }`}
+                        >
+                          {category.label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                <div ref={tagDropdownRef} className="relative w-full sm:w-auto">
+                  <button
+                    type="button"
+                    onClick={() => setIsTagOpen((prev) => !prev)}
+                    className="w-full sm:w-auto px-3 py-2.5 rounded-full border border-stone-200 bg-white/95 text-sm text-stone-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-200 inline-flex items-center justify-between gap-2"
+                    aria-label="Filter by tag"
+                    aria-expanded={isTagOpen}
+                    aria-haspopup="listbox"
+                  >
+                    {activeTagLabel}
+                    <ChevronDown size={16} className={`transition-transform ${isTagOpen ? 'rotate-180' : ''}`} />
+                  </button>
+                  {isTagOpen && (
+                    <div
+                      role="listbox"
+                      className="absolute left-0 right-0 mt-2 z-40 rounded-xl border border-stone-200 bg-white shadow-lg p-1 max-h-64 overflow-auto"
+                    >
+                      {tagOptions.map((tag) => (
+                        <button
+                          key={tag}
+                          type="button"
+                          role="option"
+                          aria-selected={activeTag === tag}
+                          onClick={() => {
+                            setActiveTag(tag);
+                            setIsTagOpen(false);
+                          }}
+                          className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
+                            activeTag === tag
+                              ? 'bg-rose-50 text-rose-600'
+                              : 'text-stone-700 hover:bg-stone-50'
+                          }`}
+                        >
+                          {formatTagLabel(tag)}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
             
-            {/* Filter Tabs - Mobile App Style (Horizontal Scroll) */}
-            <div className="flex overflow-x-auto sm:justify-center gap-2 sm:gap-3 pb-4 px-2 sm:px-0 no-scrollbar snap-x">
+            {/* Filter Tabs - Mobile App Style (Wrapped chips to avoid hidden horizontal scroll) */}
+            <div className="flex sm:hidden flex-wrap justify-center gap-2 pb-4 px-2">
               {categories.map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold tracking-wide transition-all duration-300 transform whitespace-nowrap snap-center ${
+                  className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold tracking-wide transition-all duration-300 transform whitespace-nowrap ${
                     activeTab === tab.id
                       ? 'bg-stone-900 text-white shadow-lg shadow-stone-200 scale-105' 
                       : 'bg-stone-100 text-stone-600 hover:bg-stone-200 hover:text-stone-900'
@@ -713,7 +901,7 @@ const App = () => {
                     {/* Badges */}
                     {product.tag && (
                       <div className="absolute top-2 sm:top-4 left-2 sm:left-4 bg-white/95 backdrop-blur text-stone-800 text-[10px] sm:text-xs font-bold px-2 sm:px-3 py-1 sm:py-1.5 rounded-full uppercase tracking-wider shadow-sm z-10">
-                        {product.tag}
+                        {formatTagLabel(product.tag)}
                       </div>
                     )}
 
@@ -758,26 +946,6 @@ const App = () => {
                       </div>
                     )}
 
-                    {/* Order Button on Image */}
-                    <div className="absolute bottom-3 right-3 z-20">
-                      <a 
-                        href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Hi Rukaiya, I am interested in buying the ${product.name} (${product.price}).\nI saw this image: ${window.location.origin}${currentImg}`)}`}
-                        target="_blank" 
-                        rel="noreferrer"
-                        className="btn-order-now btn-order-float btn-order-slide btn-order-pulse ring-1 ring-white/40"
-                      >
-                        <WhatsAppIcon size={18} /> Order Now
-                      </a>
-                    </div>
-
-                    <button
-                      type="button"
-                      onClick={() => handleShareProduct(product, currentImg)}
-                      title="Share product"
-                      className="absolute bottom-3 left-3 z-20 inline-flex items-center justify-center w-9 h-9 rounded-full bg-white/90 text-stone-700 shadow-sm border border-stone-200 hover:bg-white transition-colors"
-                    >
-                      <Share2 size={14} />
-                    </button>
                   </div>
 
                   {/* Product Info */}
@@ -794,10 +962,30 @@ const App = () => {
                       <span className="text-xl font-bold text-stone-900">{product.price}</span>
                       <span className="text-sm text-stone-400 line-through decoration-1">{product.originalPrice}</span>
                       {savings && savings > 0 && (
-                        <span className="ml-auto text-[10px] font-bold text-green-700 bg-green-50 border border-green-100 px-2 py-1 rounded-full">
+                        <span className="ml-auto text-[14px] font-bold text-green-700 bg-green-50 border border-green-100 px-2 py-1 rounded-full">
                           Save ₹{savings}
                         </span>
                       )}
+                    </div>
+
+                    <div className="mt-2 rounded-2xl border border-stone-100 p-2 flex items-center gap-2">
+                      <a
+                        href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Hi Rukaiya, I am interested in buying the ${product.name} (${product.price}).\nI saw this image: ${window.location.origin}${currentImg}`)}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="btn-order-now flex-1 justify-center"
+                      >
+                        <WhatsAppIcon size={18} /> Order Now
+                      </a>
+
+                      <button
+                        type="button"
+                        onClick={() => handleShareProduct(product, currentImg)}
+                        title="Share product"
+                        className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-full bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-colors text-xs font-semibold"
+                      >
+                        <Share2 size={14} /> Share
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -840,14 +1028,16 @@ const App = () => {
                 What started as a passion project has grown into a small business dedicated to sustainable fashion and unique handcrafted accessories.
               </p>
               <p className="text-stone-600 leading-relaxed">
-                Each handmade crochet bag takes hours of careful work - from selecting the perfect yarn colors to stitching every detail with precision. 
+                Each handmade crochet bag takes hours of careful work from selecting the perfect yarn colors to stitching every detail with precision. 
                 Whether you're looking for a stylish crochet handbag, practical tote bag, trendy sling bag, or elegant potli for weddings, 
                 I create each piece with love and attention to detail.
               </p>
               <div className="flex gap-4 pt-2">
                 <div className="flex flex-col items-center p-3 bg-white rounded-xl shadow-sm w-24">
                   <span className="text-2xl font-bold text-stone-800">80+</span>
-                  <span className="text-[10px] text-stone-500 uppercase tracking-wide">Happy Customers</span>
+                  <span className="text-[10px] text-stone-500 uppercase tracking-wide">Happy </span>
+                  <span className="text-[10px] text-stone-500 uppercase tracking-wide">Customers</span>
+
                 </div>
                 <div className="flex flex-col items-center p-3 bg-white rounded-xl shadow-sm w-24">
                   <span className="text-2xl font-bold text-stone-800">100%</span>
@@ -859,80 +1049,126 @@ const App = () => {
         </div>
       </section>
 
-      {/* --- TESTIMONIALS MODULE --- */}
-      {/* <section className="py-16 sm:py-24 bg-white">
+
+      {/* --- CUSTOM CROCHET CREATIONS MODULE --- */}
+      <section id="customize" className="py-16 sm:py-20 lg:py-24 bg-white scroll-mt-24">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-12">
-            <span className="text-teal-500 font-bold tracking-widest text-xs uppercase mb-2 block">Testimonials</span>
-            <h2 className="text-3xl sm:text-4xl font-serif text-stone-900">Customer Love</h2>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-            {testimonials.map((review) => (
-              <div key={review.id} className="bg-stone-50 p-8 rounded-2xl relative hover:shadow-lg transition-shadow duration-300">
-                <Quote size={40} className="text-rose-200 absolute top-6 right-6" />
-                <div className="flex gap-1 text-amber-400 mb-4">
-                  {[...Array(5)].map((_, i) => <Star key={i} size={16} fill="currentColor" />)}
+          <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] items-start">
+            <div className="relative overflow-hidden rounded-3xl lg:rounded-[3rem] border border-rose-100 bg-gradient-to-br from-rose-50 via-white to-teal-50 shadow-2xl shadow-rose-100/60 p-6 sm:p-10 lg:p-14">
+              <div className="absolute -top-12 -right-12 w-40 h-40 bg-rose-200/40 rounded-full blur-3xl"></div>
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/90 border border-rose-100 text-rose-500 text-xs font-bold tracking-widest uppercase mb-4">
+                <Edit3 size={14} /> Custom Crochet Creations
+              </span>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-stone-900 leading-tight mb-5">
+                Have something special in mind?
+              </h2>
+              <p className="text-stone-600 text-sm sm:text-base lg:text-lg leading-relaxed max-w-2xl mb-6">
+                We create custom crochet items based on your ideas, colors, size preferences, or reference photos. From bouquets, bags, keychains, characters, plushies, decor items, and gift sets to completely unique creations, we're happy to bring your vision to life. Contact us for a personalized quote.
+              </p>
+
+              <div className="grid sm:grid-cols-2 gap-3 sm:gap-4 mb-8">
+                {[
+                  '✨ Personalized designs',
+                  '🎨 Choose your colors, size, and style',
+                  '📸 Share a reference photo, sketch, or idea',
+                  '🧶 Handmade with care and attention to detail'
+                ].map((step) => (
+                  <div key={step} className="flex items-start gap-3 rounded-2xl bg-white/85 border border-rose-100 px-4 py-3 shadow-sm">
+                    {/* <CheckCircle size={18} className="text-rose-500 mt-0.5 shrink-0" /> */}
+                    <span className="text-sm text-stone-700 leading-relaxed">{step}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                <a
+                  href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hi Rukaiya, I want to request a custom crochet creation. I can share a photo/reference and details.")}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-2 bg-stone-900 text-white rounded-full text-sm font-medium shadow-2xl shadow-rose-200 transform transition duration-300 ease-out hover:scale-105 hover:-translate-y-1 hover:shadow-2xl hover:bg-stone-800 active:translate-y-0 focus:outline-none focus:ring-4 focus:ring-rose-100 animate-fade-in-up"
+                >
+                  Start Your Custom Order <ArrowRight size={18} />
+                </a>
+              </div>
+            </div>
+            {/* Custom Work Module*/}
+            <div className="rounded-3xl lg:rounded-[3rem] bg-stone-900 text-white p-6 sm:p-10 lg:p-12 shadow-2xl shadow-stone-200/50">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center">
+                  <Palette size={24} className="text-rose-300" />
                 </div>
-                <p className="text-stone-600 mb-6 leading-relaxed italic">"{review.text}"</p>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gradient-to-br from-rose-300 to-rose-400 rounded-full flex items-center justify-center text-white font-bold text-sm">
-                    {review.name.charAt(0)}
-                  </div>
-                  <div>
-                    <p className="font-bold text-stone-900 text-sm">{review.name}</p>
-                    <p className="text-xs text-stone-400">{review.location}</p>
-                  </div>
+                <div>
+                  <p className="text-xs uppercase tracking-[0.3em] text-stone-400 font-bold">Custom Work</p>
+                  <h3 className="text-2xl font-serif">Custom creations we make</h3>
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-      </section> */}
 
-      {/* --- RESELLER MODULE --- */}
-      <section id="reseller" className="py-16 sm:py-20 lg:py-24 bg-gradient-to-b from-rose-50 to-white scroll-mt-24">
-        <div className="container mx-auto px-6">
-          <div className="bg-white rounded-2xl sm:rounded-3xl lg:rounded-[3rem] shadow-2xl shadow-rose-100 overflow-hidden border border-rose-100">
-            <div className="">
-              <div className="p-6 sm:p-12 lg:p-20 flex flex-col justify-center">
-                <span className="text-rose-400 font-bold tracking-widest text-xs uppercase mb-2 sm:mb-3">Business Opportunities</span>
-                <h2 className="text-2xl sm:text-3xl lg:text-5xl font-serif text-stone-900 mb-4 sm:mb-6">Partner with Rukaiya</h2>
-                <p className="text-sm sm:text-base lg:text-lg text-stone-600 leading-relaxed mb-6 sm:mb-8">
-                  We love collaborating with boutiques and resellers. Our handcrafted crochet bags make the perfect addition to curated collections.
+              <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                {['Bouquets', 'Bags', 'Keychains', 'Characters', 'Plushies', 'Decor Items', 'Gift Sets', 'More Ideas'].map((item) => (
+                  <div key={item} className="rounded-2xl border border-white/10 bg-white/5 px-4 py-4 text-sm sm:text-base text-stone-100 text-center shadow-sm backdrop-blur-sm hover:bg-white/10 transition-colors">
+                    {item}
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-8 rounded-2xl bg-white/5 border border-white/10 p-4 sm:p-5">
+                <p className="text-sm sm:text-base text-stone-200 leading-relaxed">
+                  Share your idea, photo, or sketch, and we'll provide customization options, pricing, and a timeline for your handcrafted crochet creation.
                 </p>
-                
-                <div className="mb-8 sm:mb-10 bg-green-50 p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-green-100">
-                    <p className="font-bold text-green-800 mb-3 sm:mb-4 flex items-center gap-2 text-sm sm:text-base">
-                      <WhatsAppIcon size={20}/> Fastest way to connect?
-                    </p>
-                    <a 
-                      href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hi Rukaiya, I am interested in becoming a reseller. Can we discuss pricing?")}`}
-                      target="_blank" 
-                      rel="noreferrer"
-                      className="inline-flex items-center gap-2 sm:gap-3 bg-[#25D366] text-white px-4 sm:px-8 py-3 sm:py-4 rounded-lg sm:rounded-xl font-bold hover:bg-[#20bd5a] transition-all shadow-md hover:shadow-lg w-full sm:w-auto justify-center text-sm sm:text-base"
-                    >
-                        Chat directly on WhatsApp
-                        <ArrowRight size={20} />
-                    </a>
-                </div>
-                
-                <ul className="space-y-3 sm:space-y-4">
-                  {[
-                    "Wholesale pricing for bulk orders",
-                    "Custom color palettes for your brand",
-                    "Priority manufacturing & shipping"
-                  ].map((item, i) => (
-                    <li key={i} className="flex items-start gap-2 sm:gap-3 text-stone-700 font-medium text-sm sm:text-base">
-                      <CheckCircle size={20} className="text-teal-500 flex-shrink-0 mt-0.5" /> {item}
-                    </li>
-                  ))}
-                </ul>
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      {/* --- BULK ORDERS MODULE --- */}
+      <section id="reseller" className="pt-8 sm:pt-10 lg:pt-12 pb-16 sm:pb-20 lg:pb-24 bg-white scroll-mt-24">
+        <div className="container mx-auto px-6">
+          <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] items-start">
+            <div className="relative overflow-hidden rounded-3xl lg:rounded-[3rem] border border-rose-100 bg-gradient-to-br from-rose-50 via-white to-stone-50 shadow-2xl shadow-rose-100/60 p-6 sm:p-10 lg:p-14">
+              <div className="absolute -top-12 -right-12 w-40 h-40 bg-rose-200/30 rounded-full blur-3xl"></div>
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/90 border border-rose-100 text-rose-500 text-xs font-bold tracking-widest uppercase mb-4">
+                <Package size={14} /> Bulk Orders
+              </span>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-stone-900 leading-tight mb-5">
+                Wholesale & Bulk Enquiries
+              </h2>
+              <p className="text-stone-600 text-sm sm:text-base lg:text-lg leading-relaxed max-w-2xl mb-6">
+                We accept bulk and wholesale orders for crochet bouquets, bags, keychains, and other handmade crochet products.
+              </p>
+
+              <div className="grid sm:grid-cols-2 gap-3 sm:gap-4 mb-8">
+                {[
+                  'Retail, event, and corporate orders',
+                  'Custom quantities and design options',
+                  'Pricing based on order size and complexity',
+                  'Timelines shared before confirmation'
+                ].map((step) => (
+                  <div key={step} className="flex items-start gap-3 rounded-2xl bg-white/85 border border-rose-100 px-4 py-3 shadow-sm">
+                    <CheckCircle size={18} className="text-rose-500 mt-0.5 shrink-0" />
+                    <span className="text-sm text-stone-700 leading-relaxed">{step}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                <a
+                  href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hi Rukaiya, I am interested in bulk/wholesale orders. Could you share pricing and timelines?")}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-6 py-3 text-white font-semibold shadow-lg shadow-green-200 hover:bg-[#20bd5a] transition-all"
+                >
+                  Enquire About Bulk Orders <ArrowRight size={18} />
+                </a>
+              </div>
+            </div>
+
+            
+          </div>
+        </div>
+      </section>
+
+      
 
       {/* --- FAQ SECTION FOR SEO --- */}
       <section className="py-16 sm:py-20 bg-white">
@@ -1080,7 +1316,7 @@ const App = () => {
                 <button onClick={() => setActivePolicy('shipping')} className="hover:text-white transition-colors">Shipping Policy</button>
                 <button onClick={() => setActivePolicy('terms')} className="hover:text-white transition-colors">Terms & Conditions</button>
                 <a href="#about" className="hover:text-white transition-colors">About Us</a>
-                <a href="#reseller" className="hover:text-white transition-colors">Become a Reseller</a>
+                <a href="#reseller" className="hover:text-white transition-colors">Bulk Orders</a>
               </div>
             </div>
             
