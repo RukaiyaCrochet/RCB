@@ -971,7 +971,7 @@ const App = () => {
 
                     <div className="mt-2 rounded-2xl border border-stone-100 p-2 flex items-center gap-2">
                       <a
-                        href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Hi Rukaiya, I am interested in buying the ${product.name} (${product.price}).\nI saw this image: ${window.location.origin}${currentImg}`)}`}
+                        href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Hi Rukaiya, I am interested in buying the ${product.name} (${product.price}).\n\nI saw this image: ${window.location.origin}${currentImg}`)}`}
                         target="_blank"
                         rel="noreferrer"
                         className="btn-order-now flex-1 justify-center"
