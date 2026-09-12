@@ -114,7 +114,9 @@ export const products = [
     category: "handbag",
     image: handbag11,
     modelImage: handbag11_model1,
-    tag: "New Arrival"
+    tag: "New Arrival",
+    newArrivalPriority: 4
+
   },
 
 
@@ -245,7 +247,7 @@ export const products = [
     image: sling3,
     modelImage: sling3_model,
     tag: "New Arrival",
-    newArrivalPriority: 4
+    newArrivalPriority: 3
   },
   {
     id: 15,
@@ -306,8 +308,8 @@ export const products = [
     category: "tote",
     image: tote1,
     modelImage: tote1_model,
-    tag: "Premium"
-  },
+    tag: "New Arrival",
+    newArrivalPriority: 2  },
   {
     id: 20,
     name: "Cream Elegance Tote",
@@ -316,8 +318,8 @@ export const products = [
     category: "tote",
     image: tote2,
     modelImage: tote2_model,
-    tag: "New Arrival",
-    newArrivalPriority: 7
+    tag: "Best Seller ",
+    newArrivalPriority: 3
   },
   {
     id: 21,
@@ -327,8 +329,8 @@ export const products = [
     category: "tote",
     image: tote3,
     modelImage: tote3_model,
-    tag: "New Arrival",
-    newArrivalPriority: 6
+    tag: "Popular",
+    newArrivalPriority: 2
   },
   {
     id: 28,
@@ -402,7 +404,7 @@ export const products = [
     image: basket1,
     modelImage: basket1_model,
     tag: "New Arrival",
-    newArrivalPriority: 4
+    newArrivalPriority: 5
   },
 
   // ===== BOUQUETS =====
