@@ -105,95 +105,7 @@ export const products = [
     modelImage: handbag1_model,
     tag: "Best Seller"
   },
-  {
-    id: 2,
-    name: "Mini-ature Rose HandBag",
-    price: "₹759",
-    originalPrice: "₹999",
-    category: "handbag",
-    image: handbag2,
-    modelImage: handbag2_model,
-    tag: "Premium"
-  },
-  {
-    id: 3,
-    name: "Candy Mallow CMX-S Handbag",
-    price: "₹1,699",
-    originalPrice: "₹1,999",
-    category: "handbag",
-    image: handbag3,
-    modelImage: handbag3_model,
-    tag: "Premium"
-  },
-  {
-    id: 4,
-    name: "Blue Velvet Handbag",
-    price: "₹1,559",
-    originalPrice: "₹1,999",
-    category: "handbag",
-    image: handbag4,
-    modelImage: handbag4_model,
-    tag: "Popular"
-  },
-  {
-    id: 5,
-    name: "Candy Mallow CMX-R Handbag",
-    price: "₹1,559",
-    originalPrice: "₹1,999",
-    category: "handbag",
-    image: handbag5,
-    modelImage: handbag5_model,
-    tag: "Popular"
-  },
-  {
-    id: 6,
-    name: "Candy Mallow CMX-B Handbag",
-    price: "₹1,599",
-    originalPrice: "₹1,999",
-    category: "handbag",
-    image: handbag6,
-    modelImage: handbag6_model,
-    tag: null
-  },
-  {
-    id: 7,
-    name: "Candy Mallow CMX-G Handbag",
-    price: "₹1,599",
-    originalPrice: "₹1,999",
-    category: "handbag",
-    image: handbag7,
-    modelImage: handbag7_model,
-    tag: null
-  },
-  {
-    id: 8,
-    name: "Grey Elegance Handbag",
-    price: "₹1,499",
-    originalPrice: "₹1,999",
-    category: "handbag",
-    image: handbag8,
-    modelImage: handbag8_model,
-    tag: "Popular"
-  },
-  {
-    id: 9,
-    name: "Candy Mallow CMX-P Handbag",
-    price: "₹1,499",
-    originalPrice: "₹1,799",
-    category: "handbag",
-    image: handbag9,
-    modelImage: handbag9_model,
-    tag: "Trending"
-  },
-  {
-    id: 10,
-    name: "Elegant Moon Collection Bag",
-    price: "₹999",
-    originalPrice: "₹1,299",
-    category: "handbag",
-    images: [handbag10_1, handbag10_2, handbag10_model1, handbag10_model2],
-    tag: "New Arrival"
-  },
+
   {
     id: 11,
     name: "Vanilla & Caramel handbag",
@@ -204,6 +116,103 @@ export const products = [
     modelImage: handbag11_model1,
     tag: "New Arrival"
   },
+
+
+  {
+    id: 7,
+    name: "Candy Mallow CMX-G Handbag",
+    price: "₹1,299",
+    originalPrice: "₹1,399",
+    category: "handbag",
+    image: handbag7,
+    modelImage: handbag7_model,
+    tag: "Premium"
+  },
+
+
+  {
+    id: 3,
+    name: "Candy Mallow CMX-S Handbag",
+    price: "₹1,699",
+    originalPrice: "₹1,999",
+    category: "handbag",
+    image: handbag3,
+    modelImage: handbag3_model,
+    tag: "Trending"
+  },
+  {
+    id: 4,
+    name: "Blue Velvet Handbag",
+    price: "₹1,299",
+    originalPrice: "₹1,599",
+    category: "handbag",
+    image: handbag4,
+    modelImage: handbag4_model,
+    tag: "Popular"
+  },
+  {
+    id: 5,
+    name: "Candy Mallow CMX-R Handbag",
+    price: "₹1,299",
+    originalPrice: "₹1,549",
+    category: "handbag",
+    image: handbag5,
+    modelImage: handbag5_model,
+    tag: "Popular"
+  },
+  {
+    id: 6,
+    name: "Candy Mallow CMX-B Handbag",
+    price: "₹1,299",
+    originalPrice: "₹1,499",
+    category: "handbag",
+    image: handbag6,
+    modelImage: handbag6_model,
+    tag: null
+  },
+  
+  {
+    id: 2,
+    name: "Mini-ature Rose HandBag",
+    price: "₹759",
+    originalPrice: "₹999",
+    category: "handbag",
+    image: handbag2,
+    modelImage: handbag2_model,
+    tag: "Premium"
+  },
+
+  {
+    id: 8,
+    name: "Grey Elegance Handbag",
+    price: "₹1,499",
+    originalPrice: "₹1,549",
+    category: "handbag",
+    image: handbag8,
+    modelImage: handbag8_model,
+    tag: "Popular"
+  },
+  {
+    id: 9,
+    name: "Candy Mallow CMX-P Handbag",
+    price: "₹1,499",
+    originalPrice: "₹1,699",
+    category: "handbag",
+    image: handbag9,
+    modelImage: handbag9_model,
+    tag: "New Arrival",
+    newArrivalPriority: 1
+  },
+  {
+    id: 10,
+    name: "Elegant Moon Collection Bag",
+    price: "₹999",
+    originalPrice: "₹1,299",
+    category: "handbag",
+    images: [handbag10_1, handbag10_2, handbag10_model1, handbag10_model2],
+    tag: "Trending"
+  },
+
 
   // ===== SLING BAGS =====
   {
@@ -405,13 +414,13 @@ export const products = [
     category: "bouquet",
     images: [bouquetSunflower1, bouquetSunflower2, bouquetSunflower3],
     tag: "New Arrival",
-    newArrivalPriority: 1
+    newArrivalPriority: 4
   },
   {
     id: 30,
     name: "Red Rose Bouquet",
-    price: "₹2,499 (10 roses)",
-    originalPrice: "₹2,999",
+    price: "₹1,999 (10 roses)",
+    originalPrice: "₹2,299",
     category: "bouquet",
     images: [
       bouquetRedRose1,
@@ -431,6 +440,6 @@ export const products = [
     category: "bouquet",
     images: [bouquetLily1, bouquetLily2, bouquetLily3],
     tag: "New Arrival",
-    newArrivalPriority: 3
+    newArrivalPriority: 1
   }
 ]
