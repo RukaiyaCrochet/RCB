@@ -48,7 +48,7 @@ const App = () => {
       "name": "Rukaiya Crochet Bags",
       "url": siteUrl,
       "logo": `${siteUrl}/logo.png`,
-      "description": "Handmade crochet bags, handbags, slings, totes, potlis, and bouquets crafted with love in India",
+      "description": "Handmade crochet bags, handbags, slings, totes, potlis, Keychain and bouquets crafted with love in India",
       "founder": {
         "@type": "Person",
         "name": "Rukaiya"
@@ -82,7 +82,7 @@ const App = () => {
       "@context": "https://schema.org",
       "@type": "ItemList",
       "name": "Handmade Crochet Bags Collection",
-      "description": "Browse our collection of handcrafted crochet bags including handbags, slings, totes, potlis, and bouquets",
+      "description": "Browse our collection of handcrafted crochet bags including handbags, slings, totes, potlis, Keychain and bouquets",
       "numberOfItems": products.length,
       "itemListElement": products.slice(0, 10).map((product, index) => ({
         ...(() => {
@@ -431,13 +431,14 @@ const App = () => {
   };
 
   const categories = [
-    { id: 'all', label: 'All Bags' },
+    { id: 'all', label: 'All Products' },
     { id: 'new arrival', label: 'New Arrivals' },
     { id: 'handbag', label: 'Handbags' },
     { id: 'sling', label: 'Slings' },
     { id: 'tote', label: 'Totes' },
     { id: 'potli', label: 'Potlis' },
-    { id: 'bouquet', label: 'Bouquets' }
+    { id: 'bouquet', label: 'Bouquets' },
+    { id: 'keychain', label: 'Keychains' }
   ];
 
   const tagOptions = ['all', ...new Set(products.map((product) => product.tag).filter(Boolean))];
@@ -1208,7 +1209,7 @@ const App = () => {
               
               <div className="bg-stone-50 p-6 rounded-2xl">
                 <h3 className="font-bold text-stone-900 mb-2 text-lg">What types of crochet bags do you offer?</h3>
-                <p className="text-stone-600 leading-relaxed">We create various styles including crochet handbags, sling bags, tote bags, potli bags (perfect for weddings), and basket bags. Each category has multiple designs and all are available in custom colors.</p>
+                <p className="text-stone-600 leading-relaxed">We create various styles including crochet handbags, sling bags, tote bags, potli bags (perfect for weddings), Keychain and basket bags. Each category has multiple designs and all are available in custom colors.</p>
               </div>
             </div>
           </div>

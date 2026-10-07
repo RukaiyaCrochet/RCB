@@ -22,6 +22,9 @@ import handbag10_model1 from '../assets/product/handbag/bag10_model1.webp'
 import handbag10_model2 from '../assets/product/handbag/bag10_model2.webp'
 import handbag11 from '../assets/product/handbag/bag11.webp'
 import handbag11_model1 from '../assets/product/handbag/bag11_model1.webp'
+import handbag12_1 from '../assets/product/handbag/bag12.1.webp'
+import handbag12_2 from '../assets/product/handbag/bag12.2.webp'
+import handbag12_model1 from '../assets/product/handbag/bag12_model1.webp'
 
 import sling1 from '../assets/product/sling/sling1.webp'
 import sling1_model from '../assets/product/sling/sling1_model1.webp'
@@ -52,6 +55,12 @@ import tote3_model from '../assets/product/tote/tote3_model1.webp'
 import tote4 from '../assets/product/tote/tote4.webp'
 import tote4_model1 from '../assets/product/tote/tote4_model1.webp'
 import tote4_model2 from '../assets/product/tote/tote4_model2.webp'
+import tote5_1 from '../assets/product/tote/tote5.1.webp'
+import tote5_2 from '../assets/product/tote/tote5.2.webp'
+import tote5_model1 from '../assets/product/tote/tote5_model1.webp'
+import tote6_1 from '../assets/product/tote/tote6.1.webp'
+import tote6_2 from '../assets/product/tote/tote6.2.webp'
+import tote6_model1 from '../assets/product/tote/tote6_model1.webp'
 
 import potli1 from '../assets/product/potli/potli1.webp'
 import potli1_model from '../assets/product/potli/potli1_model1.webp'
@@ -68,6 +77,9 @@ import potli5_model2 from '../assets/product/potli/potli5_model2.webp'
 
 import basket1 from '../assets/product/basket/basket1.webp'
 import basket1_model from '../assets/product/basket/basket1_model1.webp'
+
+import beeKeychain1 from '../assets/product/keychain/BeeKeychain1.webp'
+import beeKeychain2 from '../assets/product/keychain/BeeKeychain2.webp'
 
 import bouquetLily1 from '../assets/product/bouquet/bq_lily1.webp'
 import bouquetLily2 from '../assets/product/bouquet/bq_lily2.webp'
@@ -203,7 +215,7 @@ export const products = [
     image: handbag9,
     modelImage: handbag9_model,
     tag: "New Arrival",
-    newArrivalPriority: 1
+    newArrivalPriority: 2
   },
   {
     id: 10,
@@ -213,6 +225,16 @@ export const products = [
     category: "handbag",
     images: [handbag10_1, handbag10_2, handbag10_model1, handbag10_model2],
     tag: "Trending"
+  },
+  {
+    id: 33,
+    name: "Violet Pearl Handbag",
+    price: "₹2,999",
+    originalPrice: "₹3,399",
+    category: "handbag",
+    images: [handbag12_1, handbag12_2, handbag12_model1],
+    tag: "New Arrival",
+    newArrivalPriority: 1
   },
 
 
@@ -341,6 +363,26 @@ export const products = [
     images: [tote4, tote4_model1, tote4_model2],
     tag: "Popular",
   },
+  {
+    id: 35,
+    name: "Hazel Bloom Tote",
+    price: "₹1,200",
+    originalPrice: "₹1,499",
+    category: "tote",
+    images: [tote5_1, tote5_2, tote5_model1],
+    tag: "New Arrival",
+    newArrivalPriority: 1
+  },
+  {
+    id: 36,
+    name: "Rosé Bloom Tote",
+    price: "₹1,200",
+    originalPrice: "₹1,499",
+    category: "tote",
+    images: [tote6_1, tote6_2, tote6_model1],
+    tag: "New Arrival",
+    newArrivalPriority: 1
+  },
 
   // ===== POTLIS =====
   {
@@ -406,6 +448,16 @@ export const products = [
     tag: "New Arrival",
     newArrivalPriority: 5
   },
+  {
+    id: 34,
+    name: "Name Keychain AFBx1",
+    price: "₹499",
+    originalPrice: "₹599",
+    category: "keychain",
+    images: [beeKeychain1, beeKeychain2],
+    tag: "New Arrival",
+    newArrivalPriority: 1
+  },
 
   // ===== BOUQUETS =====
   {
@@ -419,7 +471,7 @@ export const products = [
     newArrivalPriority: 4
   },
   {
-    id: 30,
+    id: 37,
     name: "Red Rose Bouquet",
     price: "₹1,999 (10 roses)",
     originalPrice: "₹2,299",
@@ -435,13 +487,13 @@ export const products = [
     newArrivalPriority: 2
   },
   {
-    id: 31,
+    id: 38,
     name: "Lily Bouquet",
     price: "₹1999",
     originalPrice: "₹2,499",
     category: "bouquet",
     images: [bouquetLily1, bouquetLily2, bouquetLily3],
     tag: "New Arrival",
-    newArrivalPriority: 1
+    newArrivalPriority: 2
   }
 ]
