@@ -898,7 +898,7 @@ const App = () => {
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
 
-                    {product.showWatermark && displayIndex === 0 && (
+                    {product.showWatermark && (
                       <div
                         aria-hidden="true"
                         className="pointer-events-none absolute bottom-6 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-sm px-3 py-1.5 font-sans text-xs font-bold tracking-wide text-white [text-shadow:0_1px_3px_rgba(0,0,0,0.6)] sm:text-sm"
@@ -1069,7 +1069,7 @@ const App = () => {
               </p>
               <div className="flex gap-4 pt-2">
                 <div className="flex flex-col items-center p-3 bg-white rounded-xl shadow-sm w-24">
-                  <span className="text-2xl font-bold text-stone-800">80+</span>
+                  <span className="text-2xl font-bold text-stone-800">200+</span>
                   <span className="text-[10px] text-stone-500 uppercase tracking-wide">Happy </span>
                   <span className="text-[10px] text-stone-500 uppercase tracking-wide">Customers</span>
 

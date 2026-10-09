@@ -219,7 +219,7 @@ export const products = [
     image: handbag9,
     modelImage: handbag9_model,
     tag: "New Arrival",
-    newArrivalPriority: 2
+    newArrivalPriority: 3
   },
   {
     id: 10,
@@ -284,7 +284,8 @@ export const products = [
     category: "sling",
     image: sling4,
     modelImage: sling4_model,
-    tag: null
+    tag: "Trending"
+    
   },
   {
     id: 16,
@@ -312,8 +313,10 @@ export const products = [
     price: "₹359",
     originalPrice: "₹599",
     category: "sling",
-    images: [sling7_1, sling7_2, sling7_3, sling7_model],
-    tag: "Limited Edition"
+    images: [sling7_1, sling7_2, sling7_3],
+    // images: [sling7_1, sling7_2, sling7_3, sling7_model],
+    tag: "New Arrival",
+    newArrivalPriority: 1,
   },
   {
     id: 29,
@@ -323,7 +326,7 @@ export const products = [
     category: "sling",
     images: [sling8, sling8_model1, sling8_model2],
     tag: "New Arrival",   
-    newArrivalPriority: 3
+    newArrivalPriority: 5
   },
 
   // ===== TOTE BAGS =====
