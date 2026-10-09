@@ -104,6 +104,7 @@ import bouquetRedRoseModel1 from '../assets/product/bouquet/bq_red_rose_model1.w
  * - modelImage: Image with model
  * - tag: Special tag like "Best Seller", "New Arrival", etc. (can be null)
  * - newArrivalPriority: Optional numeric rank for "New Arrival" sorting (lower shows first)
+ * - showWatermark: Set to true to show the brand watermark on the main image
  */
 export const products = [
   // ===== HANDBAGS =====
@@ -115,7 +116,8 @@ export const products = [
     category: "handbag",
     image: handbag1,
     modelImage: handbag1_model,
-    tag: "Best Seller"
+    tag: "Best Seller",
+    // showWatermark: true
   },
 
   {
@@ -172,7 +174,9 @@ export const products = [
     category: "handbag",
     image: handbag5,
     modelImage: handbag5_model,
-    tag: "Popular"
+    tag: "Popular",
+    showWatermark: true
+
   },
   {
     id: 6,
@@ -234,7 +238,8 @@ export const products = [
     category: "handbag",
     images: [handbag12_1, handbag12_2, handbag12_model1],
     tag: "New Arrival",
-    newArrivalPriority: 1
+    newArrivalPriority: 1,
+    showWatermark: true
   },
 
 
@@ -371,7 +376,8 @@ export const products = [
     category: "tote",
     images: [tote5_1, tote5_2, tote5_model1],
     tag: "New Arrival",
-    newArrivalPriority: 1
+    newArrivalPriority: 1,
+    showWatermark: true
   },
   {
     id: 36,
@@ -381,7 +387,8 @@ export const products = [
     category: "tote",
     images: [tote6_1, tote6_2, tote6_model1],
     tag: "New Arrival",
-    newArrivalPriority: 1
+    newArrivalPriority: 1,
+    showWatermark: true
   },
 
   // ===== POTLIS =====
@@ -460,7 +467,8 @@ export const products = [
     category: "keychain",
     images: [beeKeychain1, beeKeychain2],
     tag: "New Arrival",
-    newArrivalPriority: 1
+    newArrivalPriority: 1,
+    showWatermark: true
   },
 
   // ===== BOUQUETS =====

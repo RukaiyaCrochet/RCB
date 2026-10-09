@@ -898,6 +898,16 @@ const App = () => {
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
 
+                    {product.showWatermark && displayIndex === 0 && (
+                      <div
+                        aria-hidden="true"
+                        className="pointer-events-none absolute bottom-6 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-sm px-3 py-1.5 font-sans text-xs font-bold tracking-wide text-white [text-shadow:0_1px_3px_rgba(0,0,0,0.6)] sm:text-sm"
+                        // className="pointer-events-none absolute bottom-6 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-sm px-3 py-1.5 font-mono font-semibold tracking-wider text-xs font-semibold tracking-[0.12em] text-white sm:text-sm"
+                      >
+                        Rukaiya Crochet Bags
+                      </div>
+                    )}
+
                     
                     
                     {/* Badges */}
