@@ -961,14 +961,37 @@ const App = () => {
                     </h3>
                     
                     <div className="flex items-center gap-2 mb-3">
-                      <span className="text-xl font-bold text-stone-900">{product.price}</span>
-                      <span className="text-sm text-stone-400 line-through decoration-1">{product.originalPrice}</span>
+                      <span className="text-xl font-bold text-stone-900">
+                        {product.priceOptions ? ` ${product.price}` : product.price}
+                      </span>
+                      {product.originalPrice && (
+                        <span className="text-sm text-stone-400 line-through decoration-1">{product.originalPrice}</span>
+                      )}
                       {savings && savings > 0 && (
                         <span className="ml-auto text-[14px] font-bold text-green-700 bg-green-50 border border-green-100 px-2 py-1 rounded-full">
                           Save ₹{savings}
                         </span>
                       )}
                     </div>
+
+                    {product.priceOptions && (
+                      <div className="mb-3 rounded-2xl border border-rose-100 bg-rose-50/60 p-3">
+                        <div className="mb-2 flex items-center justify-between gap-2">
+                          <span className="text-xs font-bold uppercase tracking-wide text-stone-800">
+                            Price by name length
+                          </span>
+                          <span className="text-[10px] font-medium text-stone-500">Custom order</span>
+                        </div>
+                        <div className="grid grid-cols-3 gap-1.5">
+                          {product.priceOptions.map((option) => (
+                            <div key={option.label} className="rounded-xl bg-white px-1.5 py-2 text-center shadow-sm">
+                              <div className="text-[11px] font-medium leading-4 text-stone-500">{option.label}</div>
+                              <div className="text-sm font-bold leading-5 text-stone-900">{option.price}</div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
 
                     <div className="mt-2 rounded-2xl border border-stone-100 p-2 flex items-center gap-2">
                       <a

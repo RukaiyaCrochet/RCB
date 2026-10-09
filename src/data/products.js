@@ -450,9 +450,13 @@ export const products = [
   },
   {
     id: 34,
-    name: "Name Keychain AFBx1",
-    price: "₹499",
-    originalPrice: "₹599",
+    name: "Custom Crochet Name Keychain AFBx1",
+    price: "",
+    priceOptions: [
+      { label: "1 joint", price: "₹499" },
+      { label: "2-3 joints", price: "₹599" },
+      { label: "4-5 joints", price: "₹699" }
+    ],
     category: "keychain",
     images: [beeKeychain1, beeKeychain2],
     tag: "New Arrival",
