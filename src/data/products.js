@@ -455,7 +455,7 @@ export const products = [
     priceOptions: [
       { label: "1 joint", price: "₹499" },
       { label: "2-3 joints", price: "₹599" },
-      { label: "4-5 joints", price: "₹699" }
+      { label: "4-5 joints", price: "₹749" },
     ],
     category: "keychain",
     images: [beeKeychain1, beeKeychain2],
